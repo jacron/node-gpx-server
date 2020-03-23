@@ -5,10 +5,10 @@
 	<key>Label</key>
 	<string>nl.jcroonen.gpxserver</string>
 	<key>WorkingDirectory</key>
-	<string>/Users/orion/IdeaProjects/gpxserver</string>
+	<string>/Users/orion/IdeaProjects/node-gpx-server</string>
 	<key>ProgramArguments</key>
 	<array>
-		<string>/Users/orion/.nvm/versions/node/v10.6.0/bin/node</string>
+		<string>/Users/orion/.nvm/versions/node/v12.12.0/bin/node</string>
 		<string>bin/www</string>
 	</array>
 	<key>RunAtLoad</key>

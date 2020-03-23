@@ -4,8 +4,11 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "pstart": "launchctl start nl.jcroonen.systemlibrary",
-    "pstop": "launchctl stop nl.jcroonen.systemlibrary",
+    "pcopy": "cp plist/nl.jcroonen.gpxserver.plist ~/Library/LaunchAgents",
+    "pstart": "launchctl start nl.jcroonen.gpxserver",
+    "pstop": "launchctl stop nl.jcroonen.gpxserver",
+    "pload": "launchctl load -w ~/Library/LaunchAgents/nl.jcroonen.gpxserver.plist",
+    "punload": "launchctl unload ~/Library/LaunchAgents/nl.jcroonen.gpxserver.plist",
     "plist": "launchctl list | grep jcroonen"
   },
   "dependencies": {
