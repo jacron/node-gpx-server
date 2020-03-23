@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>nl.jcroonen.gpxserver</string>
+	<key>WorkingDirectory</key>
+	<string>/Users/orion/IdeaProjects/gpxserver</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>/Users/orion/.nvm/versions/node/v10.6.0/bin/node</string>
+		<string>bin/www</string>
+	</array>
+	<key>RunAtLoad</key>
+	<true/>
+	<key>StandardOutPath</key>
+	<string>access.log</string>
+	<key>StandardErrorPath</key>
+	<string>error.log</string>
+	<key>Debug</key>
+	<true/>
+</dict>
+</plist>
