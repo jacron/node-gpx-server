@@ -9,6 +9,7 @@
     "plist": "launchctl list | grep jcroonen"
   },
   "dependencies": {
+    "acorn": ">=5.7.4",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
     "csv-parser": "^2.3.2",
