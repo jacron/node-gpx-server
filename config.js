@@ -1,7 +1,8 @@
 module.exports = {
     port: 3016,
     appTitle: 'gpx server',
-    activitiesMap: "/Volumes/Media/Download/activities",
-    activitiesXlsFile: "/Users/orion/Documents/garmin edge data/csv/activities.xlsx",
-    activitiesCsvFile: "/Users/orion/Documents/garmin edge data/csv/Activities.csv",
+    activitiesMap: "/Users/orion/Documents/garminconnect/activities",
+    downloadMap: "/Volumes/Media/Download",
+    activitiesXlsFile: "/Users/orion/Documents/garminconnect/csv/activities.xlsx",
+    activitiesCsvFile: "/Users/orion/Documents/garminconnect/csv/Activities.csv",
 };

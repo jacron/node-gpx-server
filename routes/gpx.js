@@ -11,6 +11,7 @@ router.get('/meta/:file', (req, res) => {
 });
 
 router.get('/list/all', (req, res) => {
+    // garmin lijst
     getAllGpxFromCsv()
         .then((data) => res.send(data))
         .catch(err => res.send(JSON.stringify(err)))
