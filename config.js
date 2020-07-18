@@ -1,8 +1,10 @@
+const homedir = require('os').homedir();
+
 module.exports = {
     port: 3016,
     appTitle: 'gpx server',
-    activitiesMap: "/Users/orion/Documents/garminconnect/activities",
+    activitiesMap: homedir + "/Documents/garminconnect/activities",
+    activitiesXlsFile: homedir + "/Documents/garminconnect/csv/activities.xlsx",
+    activitiesCsvFile: homedir + "/Documents/garminconnect/csv/Activities.csv",
     downloadMap: "/Volumes/Abeel/Download",
-    activitiesXlsFile: "/Users/orion/Documents/garminconnect/csv/activities.xlsx",
-    activitiesCsvFile: "/Users/orion/Documents/garminconnect/csv/Activities.csv",
 };
