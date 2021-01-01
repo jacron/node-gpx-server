@@ -19,5 +19,9 @@
 	<string>error.log</string>
 	<key>Debug</key>
 	<true/>
+	<key>Port</key>
+	<string>3016</string>
+	<key>Description</key>
+	<string>Api server for parsing specific gpx-files from Garmin Connect</string>
 </dict>
 </plist>
