@@ -10,12 +10,14 @@ router.get('/meta/:file', (req, res) => {
         .catch(err => res.send(JSON.stringify(err)))
 });
 
-router.get('/list/all', (req, res) => {
+listAll = (req, res) => {
     // garmin lijst
     getAllGpxFromCsv()
         .then((data) => res.send(data))
         .catch(err => res.send(JSON.stringify(err)))
-});
+};
+
+router.get('/list/all', listAll);
 
 // router.get('/list/:gpx', (req, res) => {
 //     const {gpx} = req.params;
