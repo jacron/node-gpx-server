@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "pcopy": "cp plist/nl.jcroonen.gpxserver.plist ~/Library/LaunchAgents",
+    "pcopy": "cp plist/orion/nl.jcroonen.gpxserver.plist ~/Library/LaunchAgents",
     "pstart": "launchctl start nl.jcroonen.gpxserver",
     "pstop": "launchctl stop nl.jcroonen.gpxserver",
     "pload": "launchctl load -w ~/Library/LaunchAgents/nl.jcroonen.gpxserver.plist",
@@ -22,6 +22,7 @@
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
+    "plist": "^3.0.6",
     "pug": "^2.0.4",
     "xml2js": "^0.4.23"
   }

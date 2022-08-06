@@ -5,10 +5,10 @@
 	<key>Label</key>
 	<string>nl.jcroonen.gpxserver</string>
 	<key>WorkingDirectory</key>
-	<string>/Users/bigsur/Dev/node-gpx-server</string>
+	<string>/Users/orion/Dev/node/node-gpx-server</string>
 	<key>ProgramArguments</key>
 	<array>
-		<string>/Users/bigsur/.nvm/versions/node/v12.12.0/bin/node</string>
+		<string>/Users/orion/.nvm/versions/node/v12.12.0/bin/node</string>
 		<string>bin/www</string>
 	</array>
 	<key>RunAtLoad</key>
@@ -17,5 +17,11 @@
 	<string>access.log</string>
 	<key>StandardErrorPath</key>
 	<string>error.log</string>
+	<key>Debug</key>
+	<true/>
+	<key>Port</key>
+	<string>3016</string>
+	<key>Description</key>
+	<string>Api server for parsing specific gpx-files from Garmin Connect</string>
 </dict>
 </plist>
