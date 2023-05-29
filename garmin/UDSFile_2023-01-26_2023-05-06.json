@@ -1,0 +1,546 @@
+[
+  {
+    "userProfilePK": 46065349,
+    "calendarDate": {
+      "date": "Jan 28, 2023 12:00:00 AM"
+    },
+    "uuid": "9bb68177eaf9461f809acf57b1e40545",
+    "durationInMilliseconds": 0,
+    "totalKilocalories": 849.0,
+    "activeKilocalories": 849.0,
+    "burnedKilocalories": 849.0,
+    "remainingKilocalories": 849.0,
+    "restingCaloriesFromActivity": 181.0,
+    "totalDistanceMeters": 41056,
+    "includesWellnessData": false,
+    "includesActivityData": true,
+    "includesCalorieConsumedData": false,
+    "allDayStress": {},
+    "version": 3,
+    "hydration": {
+      "userProfilePK": 46065349,
+      "calendarDate": {
+        "date": "Jan 28, 2023 12:00:00 AM"
+      },
+      "valueInML": 1125.0,
+      "activityIntakeInML": 1125.0,
+      "goalInML": 2800.0,
+      "capped": false,
+      "sweatLossInML": 1149.0,
+      "adjustedGoalInML": 3949.0,
+      "lastEntryTimestampLocal": {
+        "date": "Jan 28, 2023 1:14:49 PM"
+      }
+    }
+  },
+  {
+    "userProfilePK": 46065349,
+    "calendarDate": {
+      "date": "Feb 12, 2023 12:00:00 AM"
+    },
+    "uuid": "25d10c4cdfff494882582151d1dbe34a",
+    "durationInMilliseconds": 0,
+    "totalKilocalories": 842.0,
+    "activeKilocalories": 842.0,
+    "burnedKilocalories": 842.0,
+    "remainingKilocalories": 842.0,
+    "restingCaloriesFromActivity": 174.0,
+    "totalDistanceMeters": 41013,
+    "includesWellnessData": false,
+    "includesActivityData": true,
+    "includesCalorieConsumedData": false,
+    "allDayStress": {},
+    "version": 3,
+    "hydration": {
+      "userProfilePK": 46065349,
+      "calendarDate": {
+        "date": "Feb 12, 2023 12:00:00 AM"
+      },
+      "valueInML": 1125.0,
+      "activityIntakeInML": 1125.0,
+      "goalInML": 2800.0,
+      "capped": false,
+      "sweatLossInML": 1172.0,
+      "adjustedGoalInML": 3972.0,
+      "lastEntryTimestampLocal": {
+        "date": "Feb 12, 2023 11:15:27 AM"
+      }
+    }
+  },
+  {
+    "userProfilePK": 46065349,
+    "calendarDate": {
+      "date": "Feb 19, 2023 12:00:00 AM"
+    },
+    "uuid": "fa8a171355c94ae8be74d87fcd3772f6",
+    "durationInMilliseconds": 0,
+    "totalKilocalories": 817.0,
+    "activeKilocalories": 817.0,
+    "burnedKilocalories": 817.0,
+    "remainingKilocalories": 817.0,
+    "restingCaloriesFromActivity": 158.0,
+    "totalDistanceMeters": 37866,
+    "includesWellnessData": false,
+    "includesActivityData": true,
+    "includesCalorieConsumedData": false,
+    "allDayStress": {},
+    "version": 3,
+    "hydration": {
+      "userProfilePK": 46065349,
+      "calendarDate": {
+        "date": "Feb 19, 2023 12:00:00 AM"
+      },
+      "valueInML": 1125.0,
+      "activityIntakeInML": 1125.0,
+      "goalInML": 2800.0,
+      "capped": false,
+      "sweatLossInML": 1132.0,
+      "adjustedGoalInML": 3932.0,
+      "lastEntryTimestampLocal": {
+        "date": "Feb 19, 2023 1:55:57 PM"
+      }
+    }
+  },
+  {
+    "userProfilePK": 46065349,
+    "calendarDate": {
+      "date": "Feb 26, 2023 12:00:00 AM"
+    },
+    "uuid": "c1c8c8bd2953401c9476d8e5b48a024e",
+    "durationInMilliseconds": 0,
+    "totalKilocalories": 788.0,
+    "activeKilocalories": 788.0,
+    "burnedKilocalories": 788.0,
+    "remainingKilocalories": 788.0,
+    "restingCaloriesFromActivity": 165.0,
+    "totalDistanceMeters": 37510,
+    "includesWellnessData": false,
+    "includesActivityData": true,
+    "includesCalorieConsumedData": false,
+    "allDayStress": {},
+    "version": 4,
+    "hydration": {
+      "userProfilePK": 46065349,
+      "calendarDate": {
+        "date": "Feb 26, 2023 12:00:00 AM"
+      },
+      "valueInML": 1125.0,
+      "activityIntakeInML": 1125.0,
+      "goalInML": 2800.0,
+      "capped": false,
+      "sweatLossInML": 1157.0,
+      "adjustedGoalInML": 3957.0,
+      "lastEntryTimestampLocal": {
+        "date": "Feb 26, 2023 11:05:07 AM"
+      }
+    }
+  },
+  {
+    "userProfilePK": 46065349,
+    "calendarDate": {
+      "date": "Mar 4, 2023 12:00:00 AM"
+    },
+    "uuid": "68d79a414c954d15a51c5d4ac8acac29",
+    "durationInMilliseconds": 0,
+    "totalKilocalories": 780.0,
+    "activeKilocalories": 780.0,
+    "burnedKilocalories": 780.0,
+    "remainingKilocalories": 780.0,
+    "restingCaloriesFromActivity": 163.0,
+    "totalDistanceMeters": 37448,
+    "includesWellnessData": false,
+    "includesActivityData": true,
+    "includesCalorieConsumedData": false,
+    "allDayStress": {},
+    "version": 3,
+    "hydration": {
+      "userProfilePK": 46065349,
+      "calendarDate": {
+        "date": "Mar 4, 2023 12:00:00 AM"
+      },
+      "valueInML": 1125.0,
+      "activityIntakeInML": 1125.0,
+      "goalInML": 2800.0,
+      "capped": false,
+      "sweatLossInML": 1175.0,
+      "adjustedGoalInML": 3975.0,
+      "lastEntryTimestampLocal": {
+        "date": "Mar 4, 2023 2:08:06 PM"
+      }
+    }
+  },
+  {
+    "userProfilePK": 46065349,
+    "calendarDate": {
+      "date": "Mar 12, 2023 12:00:00 AM"
+    },
+    "uuid": "0f551aaec8a440468eb4fac2edfd1fdf",
+    "durationInMilliseconds": 0,
+    "totalKilocalories": 725.0,
+    "activeKilocalories": 725.0,
+    "burnedKilocalories": 725.0,
+    "remainingKilocalories": 725.0,
+    "restingCaloriesFromActivity": 176.0,
+    "totalDistanceMeters": 37520,
+    "includesWellnessData": false,
+    "includesActivityData": true,
+    "includesCalorieConsumedData": false,
+    "allDayStress": {},
+    "version": 3,
+    "hydration": {
+      "userProfilePK": 46065349,
+      "calendarDate": {
+        "date": "Mar 12, 2023 12:00:00 AM"
+      },
+      "valueInML": 1312.0,
+      "activityIntakeInML": 1312.0,
+      "goalInML": 2800.0,
+      "capped": false,
+      "sweatLossInML": 1409.0,
+      "adjustedGoalInML": 4209.0,
+      "lastEntryTimestampLocal": {
+        "date": "Mar 12, 2023 1:33:43 PM"
+      }
+    }
+  },
+  {
+    "userProfilePK": 46065349,
+    "calendarDate": {
+      "date": "Mar 17, 2023 12:00:00 AM"
+    },
+    "uuid": "4c1a27f936fd46dc9d4355bc70a16616",
+    "durationInMilliseconds": 0,
+    "totalKilocalories": 656.0,
+    "activeKilocalories": 656.0,
+    "burnedKilocalories": 656.0,
+    "remainingKilocalories": 656.0,
+    "restingCaloriesFromActivity": 126.0,
+    "totalDistanceMeters": 30963,
+    "includesWellnessData": false,
+    "includesActivityData": true,
+    "includesCalorieConsumedData": false,
+    "allDayStress": {},
+    "version": 3,
+    "hydration": {
+      "userProfilePK": 46065349,
+      "calendarDate": {
+        "date": "Mar 17, 2023 12:00:00 AM"
+      },
+      "valueInML": 1125.0,
+      "activityIntakeInML": 1125.0,
+      "goalInML": 2800.0,
+      "capped": false,
+      "sweatLossInML": 1176.0,
+      "adjustedGoalInML": 3976.0,
+      "lastEntryTimestampLocal": {
+        "date": "Mar 17, 2023 1:25:51 PM"
+      }
+    }
+  },
+  {
+    "userProfilePK": 46065349,
+    "calendarDate": {
+      "date": "Mar 24, 2023 12:00:00 AM"
+    },
+    "uuid": "71fc6c3877c840878d0bbc620b957715",
+    "durationInMilliseconds": 0,
+    "totalKilocalories": 1357.0,
+    "activeKilocalories": 1357.0,
+    "burnedKilocalories": 1357.0,
+    "remainingKilocalories": 1357.0,
+    "restingCaloriesFromActivity": 275.0,
+    "totalDistanceMeters": 63526,
+    "includesWellnessData": false,
+    "includesActivityData": true,
+    "includesCalorieConsumedData": false,
+    "allDayStress": {},
+    "version": 3,
+    "hydration": {
+      "userProfilePK": 46065349,
+      "calendarDate": {
+        "date": "Mar 24, 2023 12:00:00 AM"
+      },
+      "valueInML": 2250.0,
+      "activityIntakeInML": 2250.0,
+      "goalInML": 2800.0,
+      "capped": false,
+      "sweatLossInML": 2351.0,
+      "adjustedGoalInML": 5151.0,
+      "lastEntryTimestampLocal": {
+        "date": "Mar 24, 2023 10:42:04 AM"
+      }
+    }
+  },
+  {
+    "userProfilePK": 46065349,
+    "calendarDate": {
+      "date": "Apr 2, 2023 12:00:00 AM"
+    },
+    "uuid": "503e07a96ba14ef8af07e27c998e20a9",
+    "durationInMilliseconds": 0,
+    "totalKilocalories": 641.0,
+    "activeKilocalories": 641.0,
+    "burnedKilocalories": 641.0,
+    "remainingKilocalories": 641.0,
+    "restingCaloriesFromActivity": 138.0,
+    "totalDistanceMeters": 31403,
+    "includesWellnessData": false,
+    "includesActivityData": true,
+    "includesCalorieConsumedData": false,
+    "allDayStress": {},
+    "version": 3,
+    "hydration": {
+      "userProfilePK": 46065349,
+      "calendarDate": {
+        "date": "Apr 2, 2023 12:00:00 AM"
+      },
+      "valueInML": 1125.0,
+      "activityIntakeInML": 1125.0,
+      "goalInML": 2800.0,
+      "capped": false,
+      "sweatLossInML": 1159.0,
+      "adjustedGoalInML": 3959.0,
+      "lastEntryTimestampLocal": {
+        "date": "Apr 2, 2023 2:04:19 PM"
+      }
+    }
+  },
+  {
+    "userProfilePK": 46065349,
+    "calendarDate": {
+      "date": "Apr 8, 2023 12:00:00 AM"
+    },
+    "uuid": "f092bc861c504ec2af2e7b0fadf7d021",
+    "durationInMilliseconds": 0,
+    "totalKilocalories": 1383.0,
+    "activeKilocalories": 1383.0,
+    "burnedKilocalories": 1383.0,
+    "remainingKilocalories": 1383.0,
+    "restingCaloriesFromActivity": 262.0,
+    "totalDistanceMeters": 63024,
+    "includesWellnessData": false,
+    "includesActivityData": true,
+    "includesCalorieConsumedData": false,
+    "allDayStress": {},
+    "version": 3,
+    "hydration": {
+      "userProfilePK": 46065349,
+      "calendarDate": {
+        "date": "Apr 8, 2023 12:00:00 AM"
+      },
+      "valueInML": 2250.0,
+      "activityIntakeInML": 2250.0,
+      "goalInML": 2800.0,
+      "capped": false,
+      "sweatLossInML": 2327.0,
+      "adjustedGoalInML": 5127.0,
+      "lastEntryTimestampLocal": {
+        "date": "Apr 8, 2023 2:36:21 PM"
+      }
+    }
+  },
+  {
+    "userProfilePK": 46065349,
+    "calendarDate": {
+      "date": "Apr 10, 2023 12:00:00 AM"
+    },
+    "uuid": "023845736c4f489e8130a5a528c0df0f",
+    "durationInMilliseconds": 0,
+    "totalKilocalories": 828.0,
+    "activeKilocalories": 828.0,
+    "burnedKilocalories": 828.0,
+    "remainingKilocalories": 828.0,
+    "restingCaloriesFromActivity": 158.0,
+    "totalDistanceMeters": 37551,
+    "includesWellnessData": false,
+    "includesActivityData": true,
+    "includesCalorieConsumedData": false,
+    "allDayStress": {},
+    "version": 3,
+    "hydration": {
+      "userProfilePK": 46065349,
+      "calendarDate": {
+        "date": "Apr 10, 2023 12:00:00 AM"
+      },
+      "valueInML": 1500.0,
+      "activityIntakeInML": 1500.0,
+      "goalInML": 2800.0,
+      "capped": false,
+      "sweatLossInML": 1558.0,
+      "adjustedGoalInML": 4358.0,
+      "lastEntryTimestampLocal": {
+        "date": "Apr 10, 2023 12:29:19 PM"
+      }
+    }
+  },
+  {
+    "userProfilePK": 46065349,
+    "calendarDate": {
+      "date": "Apr 14, 2023 12:00:00 AM"
+    },
+    "uuid": "91d7c83f18134042a74dcbf957810607",
+    "durationInMilliseconds": 0,
+    "totalKilocalories": 1205.0,
+    "activeKilocalories": 1205.0,
+    "burnedKilocalories": 1205.0,
+    "remainingKilocalories": 1205.0,
+    "restingCaloriesFromActivity": 224.0,
+    "totalDistanceMeters": 54784,
+    "includesWellnessData": false,
+    "includesActivityData": true,
+    "includesCalorieConsumedData": false,
+    "allDayStress": {},
+    "version": 3,
+    "hydration": {
+      "userProfilePK": 46065349,
+      "calendarDate": {
+        "date": "Apr 14, 2023 12:00:00 AM"
+      },
+      "valueInML": 2062.0,
+      "activityIntakeInML": 2062.0,
+      "goalInML": 2800.0,
+      "capped": false,
+      "sweatLossInML": 2172.0,
+      "adjustedGoalInML": 4972.0,
+      "lastEntryTimestampLocal": {
+        "date": "Apr 14, 2023 2:03:16 PM"
+      }
+    }
+  },
+  {
+    "userProfilePK": 46065349,
+    "calendarDate": {
+      "date": "Apr 23, 2023 12:00:00 AM"
+    },
+    "uuid": "d4c1349ffda3468f8f66d3856b791e46",
+    "durationInMilliseconds": 0,
+    "totalKilocalories": 761.0,
+    "activeKilocalories": 761.0,
+    "burnedKilocalories": 761.0,
+    "remainingKilocalories": 761.0,
+    "restingCaloriesFromActivity": 168.0,
+    "totalDistanceMeters": 38475,
+    "includesWellnessData": false,
+    "includesActivityData": true,
+    "includesCalorieConsumedData": false,
+    "allDayStress": {},
+    "version": 3,
+    "hydration": {
+      "userProfilePK": 46065349,
+      "calendarDate": {
+        "date": "Apr 23, 2023 12:00:00 AM"
+      },
+      "valueInML": 1500.0,
+      "activityIntakeInML": 1500.0,
+      "goalInML": 2800.0,
+      "capped": false,
+      "sweatLossInML": 1665.0,
+      "adjustedGoalInML": 4465.0,
+      "lastEntryTimestampLocal": {
+        "date": "Apr 23, 2023 10:19:54 AM"
+      }
+    }
+  },
+  {
+    "userProfilePK": 46065349,
+    "calendarDate": {
+      "date": "Apr 28, 2023 12:00:00 AM"
+    },
+    "uuid": "e17baa27c43e4448afd77a89d1b6f4d1",
+    "durationInMilliseconds": 0,
+    "totalKilocalories": 186.0,
+    "activeKilocalories": 186.0,
+    "burnedKilocalories": 186.0,
+    "remainingKilocalories": 186.0,
+    "restingCaloriesFromActivity": 34.0,
+    "totalDistanceMeters": 8558,
+    "includesWellnessData": false,
+    "includesActivityData": true,
+    "includesCalorieConsumedData": false,
+    "allDayStress": {},
+    "version": 2,
+    "hydration": {
+      "userProfilePK": 46065349,
+      "calendarDate": {
+        "date": "Apr 28, 2023 12:00:00 AM"
+      },
+      "valueInML": 0.0,
+      "activityIntakeInML": 0.0,
+      "goalInML": 2800.0,
+      "capped": false,
+      "sweatLossInML": 284.0,
+      "adjustedGoalInML": 3084.0,
+      "lastEntryTimestampLocal": {
+        "date": "Apr 28, 2023 3:02:00 PM"
+      }
+    }
+  },
+  {
+    "userProfilePK": 46065349,
+    "calendarDate": {
+      "date": "Apr 29, 2023 12:00:00 AM"
+    },
+    "uuid": "9f38bff230fa4b12abd198e92976acb1",
+    "durationInMilliseconds": 0,
+    "totalKilocalories": 983.0,
+    "activeKilocalories": 983.0,
+    "burnedKilocalories": 983.0,
+    "remainingKilocalories": 983.0,
+    "restingCaloriesFromActivity": 220.0,
+    "totalDistanceMeters": 49499,
+    "includesWellnessData": false,
+    "includesActivityData": true,
+    "includesCalorieConsumedData": false,
+    "allDayStress": {},
+    "version": 3,
+    "hydration": {
+      "userProfilePK": 46065349,
+      "calendarDate": {
+        "date": "Apr 29, 2023 12:00:00 AM"
+      },
+      "valueInML": 2062.0,
+      "activityIntakeInML": 2062.0,
+      "goalInML": 2800.0,
+      "capped": false,
+      "sweatLossInML": 2150.0,
+      "adjustedGoalInML": 4950.0,
+      "lastEntryTimestampLocal": {
+        "date": "Apr 29, 2023 2:11:05 PM"
+      }
+    }
+  },
+  {
+    "userProfilePK": 46065349,
+    "calendarDate": {
+      "date": "May 5, 2023 12:00:00 AM"
+    },
+    "uuid": "8535c9184608416daaec6ba695bfad09",
+    "durationInMilliseconds": 0,
+    "totalKilocalories": 710.0,
+    "activeKilocalories": 710.0,
+    "burnedKilocalories": 710.0,
+    "remainingKilocalories": 710.0,
+    "restingCaloriesFromActivity": 146.0,
+    "totalDistanceMeters": 34913,
+    "includesWellnessData": false,
+    "includesActivityData": true,
+    "includesCalorieConsumedData": false,
+    "allDayStress": {},
+    "version": 3,
+    "hydration": {
+      "userProfilePK": 46065349,
+      "calendarDate": {
+        "date": "May 5, 2023 12:00:00 AM"
+      },
+      "valueInML": 1125.0,
+      "activityIntakeInML": 1125.0,
+      "goalInML": 2800.0,
+      "capped": false,
+      "sweatLossInML": 1280.0,
+      "adjustedGoalInML": 4080.0,
+      "lastEntryTimestampLocal": {
+        "date": "May 5, 2023 5:58:04 PM"
+      }
+    }
+  }
+]

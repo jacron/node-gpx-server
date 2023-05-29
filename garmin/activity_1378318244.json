@@ -1,0 +1,19 @@
+{
+  "name": "Amsterdam Museumplein",
+  "desc": "",
+  "link": {},
+  "type": "cycling",
+  "date": "2016-09-25T07:17:37.000Z",
+  "creator": "Garmin Connect",
+  "duration": "07:06:22",
+  "start": "2016-09-25T07:17:37.000Z",
+  "finish": "2016-09-25T14:23:21.000Z",
+  "firstPoint": {
+    "lat": "52.20368946902453899383544921875",
+    "lon": "5.3662357293069362640380859375"
+  },
+  "distance": "101,77",
+  "speed": "14,3",
+  "maxSpeed": "32,8",
+  "elevation": "132"
+}
