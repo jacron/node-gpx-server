@@ -5,10 +5,12 @@
     <key>Label</key>
     <string>nl.jcroonen.gpxserver</string>
     <key>WorkingDirectory</key>
+    <string>/Users/ares/Dev/node-gpx-server/app</string>
+    <key>IdeDirectory</key>
     <string>/Users/ares/Dev/node-gpx-server</string>
     <key>ProgramArguments</key>
     <array>
-      <string>/Users/ares/.nvm/versions/node/v14.20.0/bin/node</string>
+      <string>/Users/ares/.nvm/versions/node/v17.9.1/bin/node</string>
       <string>bin/www</string>
     </array>
     <key>RunAtLoad</key>

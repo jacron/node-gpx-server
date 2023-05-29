@@ -1,5 +1,5 @@
 const {getAllGpx} = require("./gpx");
-const config = require('../config');
+const config = require('../../config');
 const {updateFromCsv, readCsv} = require("./csv");
 const {firstWord} = require("./util");
 

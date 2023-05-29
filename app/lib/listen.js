@@ -1,6 +1,6 @@
 const chokidar = require('chokidar');
 const fs = require('fs');
-const config = require('../config');
+const config = require('../../config');
 
 function move(src) {
     const dst = src.replace(config.downloadMap, config.activitiesMap);

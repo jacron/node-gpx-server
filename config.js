@@ -12,7 +12,7 @@ module.exports = {
 };
 */
 
-const homedir = '/Volumes/Data/Data/garminconnect';  // require('os').homedir();
+const homedir = '/Volumes/Data-1/Data/garminconnect';  // require('os').homedir();
 
 module.exports = {
     port: 3016,

@@ -1,6 +1,6 @@
 const csvParser = require('csv-parser');
 const {firstWord} = require("./util");
-const config = require('../config');
+const config = require('../../config');
 const fs = require('fs');
 
 function updateGpxFromCsv(csv, gpxFile) {

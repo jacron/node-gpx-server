@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "node app/bin/www",
     "pcopy": "cp plist/orion/nl.jcroonen.gpxserver.plist ~/Library/LaunchAgents",
     "pstart": "launchctl start nl.jcroonen.gpxserver",
     "pstop": "launchctl stop nl.jcroonen.gpxserver",

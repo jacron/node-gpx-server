@@ -1,6 +1,6 @@
 const fs = require('fs');
 const parseXmlString = require('xml2js').parseString;
-const config = require('../config');
+const config = require('../../config');
 const {getRawDuration} = require("./dateutil");
 const {getDataFromFilename, hasExtension} = require("./util");
 const {readCsv} = require("./csv");
