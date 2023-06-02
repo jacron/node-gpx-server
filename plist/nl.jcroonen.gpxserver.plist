@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>Label</key>
+    <string>nl.jcroonen.gpxserver</string>
+    <key>WorkingDirectory</key>
+    <string>/Users/ares/Dev/node-gpx-server/app</string>
+    <key>IdeDirectory</key>
+    <string>/Users/ares/Dev/node-gpx-server</string>
+    <key>ProgramArguments</key>
+    <array>
+      <string>/Users/ares/.nvm/versions/node/v17.9.1/bin/node</string>
+      <string>bin/www</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>StandardOutPath</key>
+    <string>access.log</string>
+    <key>StandardErrorPath</key>
+    <string>error.log</string>
+    <key>Debug</key>
+    <true/>
+    <key>Port</key>
+    <string>3016</string>
+    <key>Description</key>
+    <string>Api server for parsing specific gpx-files from Garmin Connect</string>
+    <key>IdeDirectory</key>
+    <string>/Users/ares/Dev/node-gpx-server</string>
+  </dict>
+</plist>

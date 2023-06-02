@@ -162,16 +162,27 @@ async function getMetaList(files) {
 }
 
 function getAllGpx() {
+    /* Routes */
     return new Promise((resolve, reject) => {
-        fs.readdir(config.activitiesMap, (err, files) => {
-            if (err) {
-                console.error(err);
-                reject(err.message);
-            } else {
-                const filtered = files.filter(file => hasExtension(file, 'gpx'));
-                getMetaList(filtered).then(list => resolve(list));
-            }
-        })
+        if (config.activitiesMapDirty || !config.cache.gpxlist) {
+            fs.readdir(config.activitiesMap, (err, files) => {
+                if (err) {
+                    console.error(err);
+                    reject(err.message);
+                } else {
+                    const filtered = files.filter(file => hasExtension(file, 'gpx'));
+                    getMetaList(filtered).then(list => {
+                        console.log('caching the list');
+                        config.cache.gpxlist = list;
+                        config.activitiesMapDirty = false;
+                        resolve(list);
+                    });
+                }
+            })
+        } else {
+            console.log('getting the list from the cache');
+            resolve(config.cache.gpxlist);
+        }
     });
 }
 

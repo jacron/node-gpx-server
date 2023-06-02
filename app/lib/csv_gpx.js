@@ -6,12 +6,14 @@ const {firstWord} = require("./util");
 function updateFromGpx(resultsCsv, listGpx) {
     for (const csv of resultsCsv) {
         for (const gpx of listGpx) {
-            const listDate = firstWord(gpx.date
-                .replace('T', ' ')
-                .replace('.000Z', ''));
-            const resultDate = firstWord(csv.date);
-            if (listDate === resultDate) {
-                updateCsvFromGpx(csv, gpx);
+            if (gpx.date) {
+                const listDate = firstWord(gpx.date
+                    .replace('T', ' ')
+                    .replace('.000Z', ''));
+                const resultDate = firstWord(csv.date);
+                if (listDate === resultDate) {
+                    updateCsvFromGpx(csv, gpx);
+                }
             }
         }
     }

@@ -1,5 +1,6 @@
-Aan te passen in plist file:
-
-- WorkingDirectory: inclusief dir app
-- IdeDirectory: geen tilde toegestaan, dus vul de juiste user in
-- ProgramArguments: de juiste (aanwezige) versie van Node
+## Gegevens ophalen
+	- Per gpx bestand in activities map
+	- Zoek bijbehorend json bestand
+	- Als die nog niet bestaat, maak hem van gpx bestand
+	- Zoek bijbehorend csv bestand
+	- Als die bestaat, voeg snelheidsgegevens etc toe aan de json

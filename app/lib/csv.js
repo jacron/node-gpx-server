@@ -38,13 +38,15 @@ function updateFromCsv(resultsCsv, listGpx) {
     let found = 0;
     for (const resultCsv of resultsCsv) {
         for (const recordGpx of listGpx) {
-            const listDate = firstWord(recordGpx.date
-                .replace('T', ' ')
-                .replace('.000Z', ''));
-            const resultDate = firstWord(resultCsv.date);
-            if (listDate === resultDate) {
-                found++;
-                updateGpxFromCsv(resultCsv, recordGpx.file).then();
+            if (recordGpx.date) {
+                const listDate = firstWord(recordGpx.date
+                    .replace('T', ' ')
+                    .replace('.000Z', ''));
+                const resultDate = firstWord(resultCsv.date);
+                if (listDate === resultDate) {
+                    found++;
+                    updateGpxFromCsv(resultCsv, recordGpx.file).then();
+                }
             }
         }
     }

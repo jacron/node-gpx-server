@@ -3,7 +3,24 @@ const {dateFromFile} = require("./dateutil");
 function hasExtension(s, ext) {
     const p = s.lastIndexOf('.');
     if (p === -1) { return false }
-    return s.substr(p + 1) === ext;
+    return s.substring(p + 1) === ext;
+}
+
+function getFileFromPath(path) {
+    const p = path.split('/');
+    return p[p.length -1];
+}
+
+/**
+ * Return file from path and then the filename without extension
+ * @returns {*|string}
+ * @param path
+ */
+function getFilename(path) {
+    const s = getFileFromPath(path);
+    const p = s.lastIndexOf('.');
+    if (p === -1) { return s; }
+    return s.substring(0, p);
 }
 
 function firstWord(s) {
@@ -36,5 +53,5 @@ function getDataFromFilename(file) {
     }
 }
 
-module.exports = {getDataFromFilename, hasExtension, firstWord};
+module.exports = {getDataFromFilename, hasExtension, firstWord, getFilename};
 
