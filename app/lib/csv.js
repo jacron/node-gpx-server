@@ -52,37 +52,30 @@ function updateFromCsv(resultsCsv, listGpx) {
     }
 }
 
-function fromCsvLine(data) {
-    // console.log('data', data);
-    if (data['Afstand']) {
-        return {
-            // in general csv only
-            type: data['Activiteittype'],
-            date: data['Datum'],
-            name: data['Titel'],
-            maxTemp: data['Max. temp.'],
-            // in all csv
-            distance: data['Afstand'],
-            duration: data['Totale tijd'] || data['Tijd'],
-            speed: data['Gemiddelde snelheid'],
-            maxSpeed: data['Max. snelheid'],
-            elevation: data['Stijging'],
-            temperature: data['Gem. temperatuur'],
-        }
-    } else return {
-        // in general csv only
-        type: data['Activity Type'],
-        date: data['Date'],
-        name: data['Title'],
-        maxTemp: data['Max. temp.'],
-        // in all csv
-        distance: data['Distance'],
-        duration: data['Total Time'] || data['Time'],
-        speed: data['Avg Speed'],
-        maxSpeed: data['Max Speed'],
-        elevation: data['Elev Gain'],
-        temperature: data['Avg Temperature'],
-    };
+function fromCsvLine(line) {
+    const data = {};
+    const fields = [
+        /* [targetlabel, Nederlands label, Engels label]
+        NB subject to change! (maar Afstand zal wel niet veranderen)
+         */
+        // in general csv
+        ['type', 'Activiteittype', 'Activity Type'],
+        ['date', 'Datum', 'Date'],
+        ['name', 'Titel', 'Title'],
+        ['maxTemp', 'Max. temp.','Max. temp.' ],
+        // in specific csv
+        ['distance', 'Afstand', 'Distance'],
+        ['duration', 'Tijd', 'Time'],
+        ['speed', 'Gemiddelde snelheid', 'Avg Speed'],
+        ['maxSpeed', 'Max. snelheid', 'Max Speed'],
+        ['elevation', 'Totale stijging', 'Elev gain'],
+        ['temperature', 'Gem. temperatuur', 'Avg Temperature']
+    ]
+    const labelIndex = line['Afstand'] ? 1 : 2; // Gebruik Nederlands of Engels label
+    for (let field of fields) {
+        data[field[0]] = line[field[labelIndex]];
+    }
+    return data;
 }
 
 function readCsv(p) {
