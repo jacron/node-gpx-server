@@ -5,41 +5,74 @@ const {getRawDuration} = require("./dateutil");
 const {getDataFromFilename, hasExtension} = require("./util");
 const {readCsv} = require("./csv");
 
-function getMetaFromGpx(/*Gpx*/gpx) {
-    let metaresult = null;
-    if (!gpx.metadata) {
-        return metaresult;
-    }
-    const metadata = gpx.metadata[0];
-    const trk = gpx.trk[0];
-    let duration = '';
-    let start = '';
-    let finish = '';
+function getLink(trk) {
     let link = {};
-    let firstPoint = null;
     if (trk.link) {
         link = {
             href: trk.link[0].$.href,
             text: trk.link[0].text
         };
     }
-    if (trk.trkseg) {
-        const trkpt = trk.trkseg[0].trkpt;
-        if (trkpt[0].time) {
-            start = trkpt[0].time[0];
-            finish = trkpt[trkpt.length - 1].time[0];
-            duration = getRawDuration(start, finish);
-        }
-        firstPoint = trkpt[0].$;
-    }
-    let name = trk.name[0];
+    return link;
+}
+
+function getDescription(trk) {
     let desc = '';
     if (trk.desc) {
         desc = trk.desc[0];
     }
-    let type = trk.type ? trk.type[0] : '';
-    let date = metadata.time? metadata.time[0] : '';
-    let creator = gpx.$.creator ? gpx.$.creator : '';
+    return desc;
+}
+
+function getDate(metadata) {
+    return metadata.time? metadata.time[0] : '';
+}
+
+function getStartFinishTimes(trk) {
+    let start = '';
+    let finish = '';
+    let duration = '';
+    if (trk.trkseg) {
+        const trkpt = trk.trkseg[0].trkpt;
+        const startPt = trkpt[0];
+        const finishPt = trkpt[trkpt.length - 1];
+        if (trkpt[0].time) {
+            start = startPt.time[0];
+            finish = finishPt.time[0];
+            duration = getRawDuration(start, finish);
+        }
+    }
+    return [start, finish, duration];
+}
+
+function getStartFinishPoints(trk) {
+    let firstPoint = null;
+    let endPoint = null;
+    if (trk.trkseg) {
+        const trkpt = trk.trkseg[0].trkpt;
+        const startPt = trkpt[0];
+        const finishPt = trkpt[trkpt.length - 1];
+        firstPoint = startPt.$;
+        endPoint = finishPt.$;
+    }
+    return [firstPoint, endPoint];
+}
+
+function getMetaFromGpx(/*Gpx*/gpx) {
+    let metaresult = null;
+    if (!gpx.metadata) {
+        return metaresult;
+    }
+    const trk = gpx.trk[0];
+    const link = getLink(trk);
+    const name = trk.name[0];
+    const desc = getDescription(trk);
+    const type = trk.type ? trk.type[0] : '';
+    const date = getDate(gpx.metadata[0]);
+    const creator = gpx.$.creator ? gpx.$.creator : '';
+    const [start, finish, duration] = getStartFinishTimes(trk);
+    const [firstPoint, endPoint] = getStartFinishPoints(trk);
+    console.log(endPoint)
     return(/* Metaresult */{
         name,
         desc,
@@ -50,7 +83,8 @@ function getMetaFromGpx(/*Gpx*/gpx) {
         duration,
         start,
         finish,
-        firstPoint
+        firstPoint,
+        endPoint
     });
 }
 
@@ -77,7 +111,7 @@ function parseXmlToMeta(data) {
             } else {
                 resolve(getMetaFromGpx(result.gpx));
             }
-        });
+        }, null);
     });
 }
 
