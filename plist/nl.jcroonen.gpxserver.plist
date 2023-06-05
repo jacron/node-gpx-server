@@ -5,9 +5,7 @@
     <key>Label</key>
     <string>nl.jcroonen.gpxserver</string>
     <key>WorkingDirectory</key>
-    <string>/Users/ares/Dev/node-gpx-server/app</string>
-    <key>IdeDirectory</key>
-    <string>/Users/ares/Dev/node-gpx-server</string>
+    <string>/Users/ares/Dev/node/node-gpx-server/app</string>
     <key>ProgramArguments</key>
     <array>
       <string>/Users/ares/.nvm/versions/node/v17.9.1/bin/node</string>
@@ -21,11 +19,11 @@
     <string>error.log</string>
     <key>Debug</key>
     <true/>
-    <key>Port</key>
-    <string>3016</string>
-    <key>Description</key>
+    <key>jc_IdeDirectory</key>
+    <string>/Users/ares/Dev/node/node-gpx-server</string>
+    <key>jc_Description</key>
     <string>Api server for parsing specific gpx-files from Garmin Connect</string>
-    <key>IdeDirectory</key>
-    <string>/Users/ares/Dev/node-gpx-server</string>
+    <key>jc_Port</key>
+    <string>3016</string>
   </dict>
 </plist>
