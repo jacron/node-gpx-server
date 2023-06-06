@@ -144,17 +144,14 @@ function updateGpx(body) {
 
 async function addFromCsv(result, csvfile) {
     if (fs.existsSync(csvfile)) {
-        const data = await readCsv(csvfile);
-        // console.log('data simple csv', data);
-        const totals = data[data.length - 1];
-        // console.log('totals simple csv', totals);
-        // const fields = totals;
+        const dataFromCsv = await readCsv(csvfile);
+        // De laatste regel bevat de totalen van alle ronden.
+        const totals = dataFromCsv[dataFromCsv.length - 1];
         for (const field of [
             'distance', 'duration', 'speed', 'maxSpeed',
             'elevation', 'temperature']) {
             result[field] = totals[field];
         }
-        // console.log('enriched result', result);
         return true;
     }
     return false;
