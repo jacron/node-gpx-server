@@ -1,17 +1,21 @@
 #!/usr/bin/env bash
-plistname=nl.jcroonen.gpxserver.plist
-plist=~/Dev/node-gpx-server/plist/ares/$plistname
-target=~/Library/LaunchAgents/$plistname
+
+# specific
+plistlabel=nl.jcroonen.gpxserver
+# general
+plistfile=$plistlabel.plist
+targetfolder=~/Library/LaunchAgents
+target=$targetfolder/$plistfile
 
 echo "# unload"
 launchctl unload $target
 defaults read $target
 
 echo "# copy"
-cp $plist ~/Library/LaunchAgents
+cp $plistfile $targetfolder
 
 echo "# load"
 launchctl load -w $target
 
 echo "# start"
-launchctl start nl.jcroonen.booklibrary20
+launchctl start $plistlabel

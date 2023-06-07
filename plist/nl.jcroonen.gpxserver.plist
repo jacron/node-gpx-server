@@ -14,9 +14,9 @@
     <key>RunAtLoad</key>
     <true/>
     <key>StandardOutPath</key>
-    <string>access.log</string>
+    <string>../log/access.log</string>
     <key>StandardErrorPath</key>
-    <string>error.log</string>
+    <string>../log/error.log</string>
     <key>Debug</key>
     <true/>
     <key>jc_IdeDirectory</key>
