@@ -9,5 +9,6 @@ module.exports = {
     cache: {
         gpxlist: null
     },
-    activitiesMapDirty: true
+    activitiesMapDirty: true,
+    listeningToGarmin: false,  // initial value, can be changed later
 };

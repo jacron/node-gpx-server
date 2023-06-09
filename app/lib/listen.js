@@ -12,6 +12,13 @@ const chokidar = require('chokidar');
 const fs = require('fs');
 const config = require('../../config');
 const {getAllGpx} = require("./gpx");
+const watcher = chokidar.watch(config.activitiesMap, {
+    ignoreInitial: true,
+    depth: 0
+});
+
+
+let listening = false;
 
 function updateList(path) {
     let otherpath = null;
@@ -36,11 +43,7 @@ function updateList(path) {
 }
 
 function setWatch(activitiesMap) {
-    const options = {
-        ignoreInitial: true,
-        depth: 0
-    };
-    chokidar.watch(activitiesMap, options).on('add', path => {
+    watcher.on('add', path => {
         console.log(path + " has been added.");
         if (~path.indexOf("/activity_")) {
             updateList(path);
@@ -49,9 +52,9 @@ function setWatch(activitiesMap) {
 
 }
 
-function listenToDownloads() {
+function turnOn() {
     const {activitiesMap} = config;
-    if (!fs.existsSync(activitiesMap)) {
+    if (!fs.existsSync(config.activitiesMap)) {
         console.error('Kan niet openen: ' + activitiesMap);
         return;
     }
@@ -59,4 +62,28 @@ function listenToDownloads() {
     setWatch(activitiesMap);
 }
 
-module.exports = {listenToDownloads}
+function turnOff() {
+    console.log('Listening is off');
+    watcher.close().then(() => {});
+}
+
+function toggleListenerState(state) {
+    if (state) {
+        turnOn();
+    } else {
+        turnOff();
+    }
+}
+
+function getListening() {
+    return listening;
+}
+
+function listenToDownloads() {
+    listening = config.listeningToGarmin;
+    if (listening) {
+        turnOn();
+    }
+}
+
+module.exports = {listenToDownloads, toggleListenerState, getListening};

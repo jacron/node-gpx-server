@@ -1,7 +1,11 @@
+/**
+ * api calls for gpx
+ */
 const {getAllGpxFromCsv, importFromCsv} = require("../lib/csv_gpx");
 const router = require('express').Router();
 const {getGpx, getMetaFile, getAllGpx, updateGpx}
     = require("../lib/gpx");
+const {toggleListenerState, getListening} = require("../lib/listen");
 
 const metaFile = (req, res) => {
     const {file} = req.params;
@@ -50,15 +54,30 @@ const file = (req, res) => {
         .catch(err => res.send(JSON.stringify(err)))
 };
 
+const getlistenerState = (req, res) => {
+    console.log('getlistenerState');
+    res.send(JSON.stringify(getListening()));
+};
+
+const setlistenerState = (req, res) => {
+    const {state} = req.body;
+    console.log('setlistenerState');
+    console.log(state);  // true / false
+    toggleListenerState(state);
+    res.send(JSON.stringify(state));
+};
+
 router.get('/list/all', listAllFromCsv);
 router.get('/meta/:file', metaFile);
 router.get('/list', list);
-/** GET gpx from file */
+router.get('/listenerstate', getlistenerState);
+/** GET gpx from file  NB must be the LAST get in this list! */
 router.get('/:file', file);
+
 
 router.post('/importxls', importXls);
 router.post('/update', update);
-
+router.post('/listenerstate', setlistenerState);
 
 
 module.exports = router;
