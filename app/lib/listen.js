@@ -42,14 +42,13 @@ function updateList(path) {
     }
 }
 
-function setWatch(activitiesMap) {
+function setWatch() {
     watcher.on('add', path => {
         console.log(path + " has been added.");
         if (~path.indexOf("/activity_")) {
             updateList(path);
         }
     });
-
 }
 
 function turnOn() {
@@ -59,12 +58,12 @@ function turnOn() {
         return;
     }
     console.log('Listening on the adding of files to directory ' + activitiesMap)
-    setWatch(activitiesMap);
+    setWatch();
 }
 
 function turnOff() {
     console.log('Listening is off');
-    watcher.close().then(() => {});
+    watcher.close().then(() => {}).catch(() => {});
 }
 
 function toggleListenerState(state) {

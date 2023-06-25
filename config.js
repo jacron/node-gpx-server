@@ -6,9 +6,12 @@ module.exports = {
     activitiesMap: homedir + "/activities",
     activitiesXlsFile: homedir + "/csv/activities.xlsx",
     activitiesCsvFile: homedir + "/csv/Activities.csv",
+
+    caching: false,
     cache: {
         gpxlist: null
     },
     activitiesMapDirty: true,
+
     listeningToGarmin: false,  // initial value, can be changed later
 };

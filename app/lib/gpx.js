@@ -36,7 +36,7 @@ function getStartFinishTimes(trk) {
         const trkpt = trk.trkseg[0].trkpt;
         const startPt = trkpt[0];
         const finishPt = trkpt[trkpt.length - 1];
-        if (trkpt[0].time) {
+        if (trkpt[0]['time']) {
             start = startPt.time[0];
             finish = finishPt.time[0];
             duration = getRawDuration(start, finish);
@@ -192,24 +192,31 @@ async function getMetaList(files) {
     });
 }
 
+function readAllGpx(resolve, reject) {
+    fs.readdir(config.activitiesMap, (err, files) => {
+        if (err) {
+            console.error(err);
+            reject(err.message);
+        } else {
+            const filtered = files.filter(file => hasExtension(file, 'gpx'));
+            getMetaList(filtered).then(list => {
+                console.log('caching the list');
+                config.cache.gpxlist = list;
+                config.activitiesMapDirty = false;
+                resolve(list);
+            }).catch(err => {
+                console.error(err);
+                reject(err.message);
+            });
+        }
+    })
+}
+
 function getAllGpx() {
     /* Routes */
     return new Promise((resolve, reject) => {
-        if (config.activitiesMapDirty || !config.cache.gpxlist) {
-            fs.readdir(config.activitiesMap, (err, files) => {
-                if (err) {
-                    console.error(err);
-                    reject(err.message);
-                } else {
-                    const filtered = files.filter(file => hasExtension(file, 'gpx'));
-                    getMetaList(filtered).then(list => {
-                        console.log('caching the list');
-                        config.cache.gpxlist = list;
-                        config.activitiesMapDirty = false;
-                        resolve(list);
-                    });
-                }
-            })
+        if (!config.caching || config.activitiesMapDirty || !config.cache.gpxlist) {
+            readAllGpx(resolve, reject);
         } else {
             console.log('getting the list from the cache');
             resolve(config.cache.gpxlist);
