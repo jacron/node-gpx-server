@@ -3,6 +3,7 @@ const {importFromCsv} = require("../lib/csv_gpx");
 const {getListening, toggleListenerState} = require("../lib/listen");
 const {getActivitiesFromCsv} = require("../lib/activities");
 const {getMetaFile} = require("../lib/meta");
+const {activitiesMap} = require("../../config");
 
 const metaFile = (req, res) => {
     const {file} = req.params;
@@ -18,7 +19,7 @@ const listActiviteitenFromCsv = (req, res) => {
 };
 
 const listRoutes =  (req, res) => {
-    getAllGpx()
+    getAllGpx(activitiesMap)
         .then((data) => res.send(data))
         .catch(err => res.send(JSON.stringify(err)))
 };

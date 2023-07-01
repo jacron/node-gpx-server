@@ -44,17 +44,14 @@ function updateGpx(body) {
     });
 }
 
-function readAllGpx(resolve, reject) {
-    fs.readdir(config.activitiesMap, (err, files) => {
+function readAllGpx(activitiesMap, resolve, reject) {
+    fs.readdir(activitiesMap, (err, files) => {
         if (err) {
             console.error(err);
             reject(err.message);
         } else {
             const filtered = files.filter(file => hasExtension(file, 'gpx'));
             getMetaList(filtered).then(list => {
-                console.log('caching the list');
-                config.cache.gpxlist = list;
-                config.activitiesMapDirty = false;
                 resolve(list);
             }).catch(err => {
                 console.error(err);
@@ -64,15 +61,10 @@ function readAllGpx(resolve, reject) {
     })
 }
 
-function getAllGpx() {
+function getAllGpx(activitiesMap) {
     /* Routes */
     return new Promise((resolve, reject) => {
-        if (!config.caching || config.activitiesMapDirty || !config.cache.gpxlist) {
-            readAllGpx(resolve, reject);
-        } else {
-            console.log('getting the list from the cache');
-            resolve(config.cache.gpxlist);
-        }
+        readAllGpx(activitiesMap, resolve, reject);
     });
 }
 

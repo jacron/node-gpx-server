@@ -29,13 +29,25 @@ function updateResultsFromGpx(resultsCsv, listGpx) {
 function readFromCsv(resolve) {
     readCsvRaw(config.outputFile).then(resultsCsv => {
         console.log('getActivitiesFromCsv', resultsCsv[0])
-        resolve(resultsCsv);
+        // resolve(resultsCsv);
+        getAllGpx(config.activitiesNewMap).then(listGpx => {
+            if (listGpx.length === 0) {
+                console.log('No gpx files found');
+                resolve(resultsCsv);
+            } else {
+                console.log(listGpx.length, 'gpx files found');
+                updateResultsFromGpx(resultsCsv, listGpx);
+                console.log('getActivitiesFromCsv', resultsCsv[0])
+                // writeResult(resultsCsv);
+                resolve(resultsCsv);
+            }
+        });
     });
 }
 
 function readFromGpx(resolve) {
     readCsv(config.activitiesCsvFile).then(resultsCsv => {
-        getAllGpx().then(listGpx => {
+        getAllGpx(config.activitiesNewMap).then(listGpx => {
             updateResultsFromGpx(resultsCsv, listGpx);
             console.log('getActivitiesFromCsv', resultsCsv[0])
             writeResult(resultsCsv);
