@@ -70,10 +70,22 @@ function readCsv(p) {
             .on('data', data =>
                 resultsCsv.push(fromCsvLine(data)))
             .on('end', () => {
-                writeResult(resultsCsv);
                 resolve(resultsCsv);
             })
     });
 }
 
-module.exports = {updateFromCsv, readCsv};
+function readCsvRaw(p) {
+    return new Promise((resolve) => {
+        const resultsCsv = [];
+        fs.createReadStream(p)
+            .pipe(csvParser())
+            .on('data', data =>
+                resultsCsv.push(data))
+            .on('end', () => {
+                resolve(resultsCsv);
+            })
+    });
+}
+
+module.exports = {updateFromCsv, readCsv, readCsvRaw};

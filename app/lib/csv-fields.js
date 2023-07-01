@@ -25,4 +25,36 @@ const csvFields = [
     'temperature'
 ];
 
-module.exports = {fields, csvFields};
+const extendedCsvFields = [
+    'distance',
+    'duration',
+    'speed',
+    'maxSpeed',
+    'elevation',
+    'temperature',
+    'type',
+    'date',
+    'name',
+    'maxTemp',
+    'file',
+    'start',
+    'finish'
+];
+
+const activityFromCsv = {
+    type: 'Fietsen',
+    date: '2023-06-23 16:04:53',
+    name: 'Hilversumse Meent',
+    maxTemp: '29,0',
+    distance: '54,72',
+    duration: '02:53:11',
+    speed: '19,0',
+    maxSpeed: '30,9',
+    elevation: '107',
+    file: 'activity_11408275428.gpx',
+    start: '2023-06-23T14:04:53.000Z',
+    finish: '2023-06-23T17:20:04.000Z'
+}
+
+
+module.exports = {fields, csvFields, extendedCsvFields};

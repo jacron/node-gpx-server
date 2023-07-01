@@ -1,7 +1,8 @@
-const {readCsv} = require("./csv");
+const {readCsv, readCsvRaw} = require("./csv");
 const config = require("../../config");
 const {firstWord} = require("./util");
 const {getAllGpx} = require("./gpx");
+const {writeResult} = require("./write-csv");
 
 function updateCsvFromGpx(csv, gpx) {
     for (const field of ['file', 'start', 'finish']) {
@@ -9,7 +10,7 @@ function updateCsvFromGpx(csv, gpx) {
     }
 }
 
-function updateFromGpx(resultsCsv, listGpx) {
+function updateResultsFromGpx(resultsCsv, listGpx) {
     for (const csv of resultsCsv) {
         for (const gpx of listGpx) {
             if (gpx.date) {
@@ -25,14 +26,28 @@ function updateFromGpx(resultsCsv, listGpx) {
     }
 }
 
+function readFromCsv(resolve) {
+    readCsvRaw(config.outputFile).then(resultsCsv => {
+        console.log('getActivitiesFromCsv', resultsCsv[0])
+        resolve(resultsCsv);
+    });
+}
+
+function readFromGpx(resolve) {
+    readCsv(config.activitiesCsvFile).then(resultsCsv => {
+        getAllGpx().then(listGpx => {
+            updateResultsFromGpx(resultsCsv, listGpx);
+            console.log('getActivitiesFromCsv', resultsCsv[0])
+            writeResult(resultsCsv);
+            resolve(resultsCsv);
+        });
+    });
+}
+
 function getActivitiesFromCsv() {
     return new Promise((resolve) => {
-        readCsv(config.activitiesCsvFile).then(resultsCsv => {
-            getAllGpx().then(listGpx => {
-                updateFromGpx(resultsCsv, listGpx);
-                resolve(resultsCsv);
-            });
-        });
+        readFromCsv(resolve);
+        // readFromGpx(resolve);
     });
 }
 
