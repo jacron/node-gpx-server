@@ -6,6 +6,7 @@ const logger = require('morgan');
 const cors = require('cors');
 const {listenToDownloads} = require("./app/lib/listen");
 const {listeningToGarmin} = require("./config");
+require('./app/trace-console-logs');
 
 const app = express();
 app.use(cors());
@@ -26,32 +27,6 @@ app.use('/', require('./app/routes'));
 // if (listeningToGarmin) {
 //   listenToDownloads();
 // }
-
-['log', 'warn', 'error'].forEach((methodName) => {
-  const originalMethod = console[methodName];
-  console[methodName] = (...args) => {
-    let initiator = 'unknown place';
-    try {
-      throw new Error();
-    } catch (e) {
-      if (typeof e.stack === 'string') {
-        let isFirst = true;
-        for (const line of e.stack.split('\n')) {
-          const matches = line.match(/^\s+at\s+(.*)/);
-          if (matches) {
-            if (!isFirst) { // first line - current function
-              // second line - caller (what we are looking for)
-              initiator = matches[1];
-              break;
-            }
-            isFirst = false;
-          }
-        }
-      }
-    }
-    originalMethod.apply(console, [...args, '\n', `  at ${initiator}`]);
-  };
-});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
