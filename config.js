@@ -6,6 +6,7 @@ module.exports = {
     activitiesMap: homedir + "/activities",
     activitiesXlsFile: homedir + "/csv/activities.xlsx",
     activitiesCsvFile: homedir + "/csv/Activities.csv",
+    outputFile: homedir + "/csv/ActivitiesOut.csv",
 
     caching: false,
     cache: {

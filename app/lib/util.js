@@ -24,6 +24,7 @@ function getFilename(path) {
 }
 
 function firstWord(s) {
+    if (!s) return '';
     const words = s.split(' ');
     return words[0];
 }

@@ -12,7 +12,7 @@ function getRawDuration(start, finish) {
     return `${hours}:${leadZero(minutes)}`;
 }
 
-timeDiff = function( date1, date2 ) {
+const timeDiff = function( date1, date2 ) {
     //Get 1 day in milliseconds
     // const one_day=1000*60*60*24;
 
