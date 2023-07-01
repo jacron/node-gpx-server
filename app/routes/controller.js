@@ -1,7 +1,7 @@
-const {updateGpx, getGpx} = require("../lib/gpx");
+const {updateGpx, getGpx, getAllGpx} = require("../lib/gpx");
 const {importFromCsv} = require("../lib/csv_gpx");
 const {getListening, toggleListenerState} = require("../lib/listen");
-const {getActivitiesFromCsv, getAllGpx} = require("../lib/activities");
+const {getActivitiesFromCsv} = require("../lib/activities");
 const {getMetaFile} = require("../lib/meta");
 
 const metaFile = (req, res) => {

@@ -1,5 +1,7 @@
 const fs = require('fs');
 const config = require('../../config');
+const {hasExtension} = require("./util");
+const {getMetaList} = require("./meta");
 
 function getGpx(file) {
     const p = `${config.activitiesMap}/${file}`;
@@ -42,4 +44,36 @@ function updateGpx(body) {
     });
 }
 
-module.exports = {getGpx, updateGpx};
+function readAllGpx(resolve, reject) {
+    fs.readdir(config.activitiesMap, (err, files) => {
+        if (err) {
+            console.error(err);
+            reject(err.message);
+        } else {
+            const filtered = files.filter(file => hasExtension(file, 'gpx'));
+            getMetaList(filtered).then(list => {
+                console.log('caching the list');
+                config.cache.gpxlist = list;
+                config.activitiesMapDirty = false;
+                resolve(list);
+            }).catch(err => {
+                console.error(err);
+                reject(err.message);
+            });
+        }
+    })
+}
+
+function getAllGpx() {
+    /* Routes */
+    return new Promise((resolve, reject) => {
+        if (!config.caching || config.activitiesMapDirty || !config.cache.gpxlist) {
+            readAllGpx(resolve, reject);
+        } else {
+            console.log('getting the list from the cache');
+            resolve(config.cache.gpxlist);
+        }
+    });
+}
+
+module.exports = {getGpx, updateGpx, getAllGpx};

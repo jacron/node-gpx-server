@@ -1,8 +1,7 @@
 const {readCsv} = require("./csv");
 const config = require("../../config");
-const {firstWord, hasExtension} = require("./util");
-const fs = require("fs");
-const {getMetaList} = require("./meta");
+const {firstWord} = require("./util");
+const {getAllGpx} = require("./gpx");
 
 function updateCsvFromGpx(csv, gpx) {
     for (const field of ['file', 'start', 'finish']) {
@@ -26,38 +25,6 @@ function updateFromGpx(resultsCsv, listGpx) {
     }
 }
 
-function readAllGpx(resolve, reject) {
-    fs.readdir(config.activitiesMap, (err, files) => {
-        if (err) {
-            console.error(err);
-            reject(err.message);
-        } else {
-            const filtered = files.filter(file => hasExtension(file, 'gpx'));
-            getMetaList(filtered).then(list => {
-                console.log('caching the list');
-                config.cache.gpxlist = list;
-                config.activitiesMapDirty = false;
-                resolve(list);
-            }).catch(err => {
-                console.error(err);
-                reject(err.message);
-            });
-        }
-    })
-}
-
-function getAllGpx() {
-    /* Routes */
-    return new Promise((resolve, reject) => {
-        if (!config.caching || config.activitiesMapDirty || !config.cache.gpxlist) {
-            readAllGpx(resolve, reject);
-        } else {
-            console.log('getting the list from the cache');
-            resolve(config.cache.gpxlist);
-        }
-    });
-}
-
 function getActivitiesFromCsv() {
     return new Promise((resolve) => {
         readCsv(config.activitiesCsvFile).then(resultsCsv => {
@@ -69,4 +36,4 @@ function getActivitiesFromCsv() {
     });
 }
 
-module.exports = {getActivitiesFromCsv, getAllGpx};
+module.exports = {getActivitiesFromCsv};
