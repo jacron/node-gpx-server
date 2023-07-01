@@ -25,7 +25,6 @@ function writeResult(resultsCsv) {
         .catch((err) => {
             console.log(`Error writing CSV file: ${err}`);
         });
-
 }
 
 module.exports = {writeResult};

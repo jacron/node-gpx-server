@@ -1,4 +1,3 @@
-const config = require("../../config");
 const fs = require("fs");
 const {getDataFromFilename} = require("./util");
 const {parseString: parseXmlString} = require("xml2js");
@@ -116,8 +115,8 @@ function parseXmlToMeta(data) {
     });
 }
 
-async function getMetaFile(file) {
-    const gpxfile = `${config.activitiesMap}/${file}`;
+async function getMetaFile(file, activitiesMap) {
+    const gpxfile = `${activitiesMap}/${file}`;
     const jsonfile = gpxfile.replace('.gpx', '.json');
     const csvfile = gpxfile.replace('.gpx', '.csv');
     if (fs.existsSync(jsonfile)) {
@@ -138,10 +137,10 @@ async function getMetaFile(file) {
     }
 }
 
-async function getMetaList(files) {
+async function getMetaList(files, activitiesMap) {
     const pfiles = [];
     for (const file of files) {
-        let meta = await getMetaFile(file);
+        let meta = await getMetaFile(file, activitiesMap);
         pfiles.push(meta);
     }
     return pfiles.sort((a, b) => {

@@ -51,7 +51,7 @@ function readAllGpx(activitiesMap, resolve, reject) {
             reject(err.message);
         } else {
             const filtered = files.filter(file => hasExtension(file, 'gpx'));
-            getMetaList(filtered).then(list => {
+            getMetaList(filtered, activitiesMap).then(list => {
                 resolve(list);
             }).catch(err => {
                 console.error(err);
