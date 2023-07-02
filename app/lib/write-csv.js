@@ -1,6 +1,5 @@
 const {extendedCsvFields} = require("../data/fields");
 const {createObjectCsvWriter: createCsvWriter} = require("csv-writer");
-const config = require("../../config");
 
 function makeHeaders() {
     const headers = [];
@@ -13,9 +12,9 @@ function makeHeaders() {
     return headers;
 }
 
-function writeResult(resultsCsv) {
+function writeResult(resultsCsv, path) {
     const headers = makeHeaders();
-    createCsvWriter({header: headers, path: config.outputFile})
+    createCsvWriter({header: headers, path: path})
         .writeRecords(resultsCsv)
         .then(() => {
             console.log('The CSV file was written successfully!')

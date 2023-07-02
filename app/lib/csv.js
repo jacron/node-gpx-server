@@ -2,7 +2,6 @@ const csvParser = require('csv-parser');
 const {firstWord} = require("./util");
 const config = require('../../config');
 const fs = require('fs');
-const {writeResult} = require("./write-csv");
 const {csvFields, fields} = require("../data/fields");
 
 function writeMeta(meta, csv, jsonFilename, resolve, reject) {
