@@ -3,7 +3,7 @@ const {firstWord} = require("./util");
 const config = require('../../config');
 const fs = require('fs');
 const {writeResult} = require("./write-csv");
-const {csvFields, fields} = require("./csv-fields");
+const {csvFields, fields} = require("../data/fields");
 
 function writeMeta(meta, csv, jsonFilename, resolve, reject) {
     for (const field of csvFields) {

@@ -1,4 +1,4 @@
-const {extendedCsvFields} = require("./csv-fields");
+const {extendedCsvFields} = require("../data/fields");
 const {createObjectCsvWriter: createCsvWriter} = require("csv-writer");
 const config = require("../../config");
 

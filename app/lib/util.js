@@ -3,12 +3,26 @@ const {dateFromFile} = require("./dateutil");
 function hasExtension(s, ext) {
     const p = s.lastIndexOf('.');
     if (p === -1) { return false }
+    if (Array.isArray(ext)) {
+        return ext.includes(s.substring(p + 1));
+    }
     return s.substring(p + 1) === ext;
 }
 
 function getFileFromPath(path) {
     const p = path.split('/');
     return p[p.length -1];
+}
+
+function sameDate(gpx, csv) {
+    if (!gpx.date || !csv.date) {
+        return false;
+    }
+    const listDate = firstWord(gpx.date
+        .replace('T', ' ')
+        .replace('.000Z', ''));
+    const resultDate = firstWord(csv.date);
+    return listDate === resultDate;
 }
 
 /**
@@ -54,5 +68,5 @@ function getDataFromFilename(file) {
     }
 }
 
-module.exports = {getDataFromFilename, hasExtension, firstWord, getFilename};
+module.exports = {getDataFromFilename, hasExtension, firstWord, getFilename, sameDate};
 

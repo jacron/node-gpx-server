@@ -56,5 +56,13 @@ const activityFromCsv = {
     finish: '2023-06-23T17:20:04.000Z'
 }
 
+const gpxFields = [
+    'file', 'start', 'finish'
+]
 
-module.exports = {fields, csvFields, extendedCsvFields};
+const extendedGpxFields = [
+    'file', 'start', 'finish', 'type', 'date', 'name', 'distance',
+    'duration', 'speed', 'maxSpeed', 'elevation'
+];
+
+module.exports = {fields, csvFields, extendedCsvFields, gpxFields, extendedGpxFields};
