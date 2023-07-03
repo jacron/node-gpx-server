@@ -4,7 +4,7 @@ const {sameDate, trimLeadingZero} = require("./util");
 const {getAllGpx} = require("./gpx");
 const {writeResult} = require("./write-csv");
 const {moveGpxFiles} = require("./moveFiles");
-const {gpxFields, extendedGpxFields} = require("../data/fields");
+const {gpxFields, extendedGpxFields, extendedCsvFields} = require("../data/fields");
 const {months, days} = require("../data/time");
 
 function updateCsvFromGpx(csv, gpx) {
@@ -14,7 +14,7 @@ function updateCsvFromGpx(csv, gpx) {
 }
 
 function updateActivitiesCsvFromGpx(csv, gpx) {
-    console.log('gpx', gpx);
+    // console.log('gpx', gpx);
     for (const field of extendedGpxFields) {
         csv[field] = gpx[field];
     }
@@ -51,15 +51,14 @@ function getDate(dateTime) {
     //'2023-06-23 16:04:53' | '2023-06-23T16:04:53.000Z'
     const seperator = dateTime.indexOf('T') > 0 ? 'T' : ' ';
     const w = dateTime.split(seperator)[0].split('-');
-    return {
-        year: w[0],
-        date: w[2] + ' ' + months[+w[1] - 1],
-    }
+    const date = w[2] + ' ' + months[+w[1] - 1];
+    const year = w[0];
+    return `${date}-${year}`;
 }
 
 function addDisplayValues(resultsCsv) {
     for (const csv of resultsCsv) {
-        for (const field of ['distance', 'duration', 'speed']) {
+        for (const field of ['distance', 'duration', 'speed', 'maxSpeed']) {
             csv[field] = csv[field].replace(',', '.');
         }
         for (const field of ['start', 'finish']) {
@@ -82,12 +81,11 @@ function readFromCsv(resolve) {
                 if (!updateResultsFromGpx(resultsCsv, listGpx)) {
                     insertResultsFromGpx(resultsCsv, listGpx);
                 }
+                // console.log('getActivitiesFromCsv', resultsCsv[0]);
                 addDisplayValues(resultsCsv);
-                console.log('getActivitiesFromCsv', resultsCsv[0]);
-                // console.log('getActivitiesFromCsv', resultsCsv[1]);
-                // moveGpxFiles(listGpx);
-
-                // writeResult(resultsCsv, config.outputFile);
+                // console.log('getActivitiesFromCsv', resultsCsv[0]);
+                moveGpxFiles(listGpx);
+                writeResult(resultsCsv, config.outputFile, extendedCsvFields);
                 resolve(resultsCsv);
             }
         });

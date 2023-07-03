@@ -26,19 +26,20 @@ const csvFields = [
 ];
 
 const extendedCsvFields = [
+    'file',
+    'start',
+    'finish',
+    'type',
+    'date',
+    'name',
     'distance',
     'duration',
     'speed',
     'maxSpeed',
     'elevation',
-    'temperature',
-    'type',
-    'date',
-    'name',
-    'maxTemp',
-    'file',
-    'start',
-    'finish'
+    'dateDisplay',
+    'activityId',
+    'dayOfTheWeek'
 ];
 
 const activityFromCsv = {
