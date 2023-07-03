@@ -131,8 +131,6 @@ async function getMetaFile(file, activitiesMap) {
         if (result) {
             await addFromCsv(result, csvfile);
             fs.writeFileSync(jsonfile, JSON.stringify(result));
-            // todo: add to Activities.csv
-
         }
         return {...result, file};
     }

@@ -9,11 +9,6 @@ function hasExtension(s, ext) {
     return s.substring(p + 1) === ext;
 }
 
-function getFileFromPath(path) {
-    const p = path.split('/');
-    return p[p.length -1];
-}
-
 function sameDate(gpx, csv) {
     if (!gpx.date || !csv.date) {
         return false;
@@ -25,18 +20,6 @@ function sameDate(gpx, csv) {
     return listDate === resultDate;
 }
 
-/**
- * Return file from path and then the filename without extension
- * @returns {*|string}
- * @param path
- */
-function getFilename(path) {
-    const s = getFileFromPath(path);
-    const p = s.lastIndexOf('.');
-    if (p === -1) { return s; }
-    return s.substring(0, p);
-}
-
 function firstWord(s) {
     if (!s) return '';
     const words = s.split(' ');
@@ -45,6 +28,14 @@ function firstWord(s) {
 
 function nameFromFile(words) {
     return words.slice(0, 2).join(' ');
+}
+
+function trimLeadingZero(s) {
+    if (!s) return '';
+    if (s.startsWith('0')) {
+        return s.substring(1);
+    }
+    return s;
 }
 
 function getDataFromFilename(file) {
@@ -68,5 +59,5 @@ function getDataFromFilename(file) {
     }
 }
 
-module.exports = {getDataFromFilename, hasExtension, firstWord, getFilename, sameDate};
-
+module.exports = {getDataFromFilename, hasExtension, firstWord,
+    sameDate, trimLeadingZero};

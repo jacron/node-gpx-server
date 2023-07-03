@@ -1,10 +1,11 @@
 const { readCsvRaw} = require("./csv");
 const config = require("../../config");
-const {sameDate} = require("./util");
+const {sameDate, trimLeadingZero} = require("./util");
 const {getAllGpx} = require("./gpx");
 const {writeResult} = require("./write-csv");
 const {moveGpxFiles} = require("./moveFiles");
 const {gpxFields, extendedGpxFields} = require("../data/fields");
+const {months, days} = require("../data/time");
 
 function updateCsvFromGpx(csv, gpx) {
     for (const field of gpxFields) {
@@ -13,7 +14,7 @@ function updateCsvFromGpx(csv, gpx) {
 }
 
 function updateActivitiesCsvFromGpx(csv, gpx) {
-    console.log(gpx)
+    console.log('gpx', gpx);
     for (const field of extendedGpxFields) {
         csv[field] = gpx[field];
     }
@@ -46,27 +47,28 @@ function getTime(dateTime) {
     return dateTime.split('T')[1].split('.')[0].split(':').slice(0, 2).join(':');
 }
 
-const months = ['Jan', 'Feb', 'Mrt', 'Apr', 'Mei', 'Jun',
-    'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dec'];
-
 function getDate(dateTime) {
     //'2023-06-23 16:04:53' | '2023-06-23T16:04:53.000Z'
     const seperator = dateTime.indexOf('T') > 0 ? 'T' : ' ';
     const w = dateTime.split(seperator)[0].split('-');
-    return [w[2] + ' ' + months[+w[1]], w[0]];
+    return {
+        year: w[0],
+        date: w[2] + ' ' + months[+w[1] - 1],
+    }
 }
 
 function addDisplayValues(resultsCsv) {
     for (const csv of resultsCsv) {
-        // replace , with . for display
         for (const field of ['distance', 'duration', 'speed']) {
             csv[field] = csv[field].replace(',', '.');
         }
         for (const field of ['start', 'finish']) {
-            csv[field] = getTime(csv[field]);
+            csv[field] = trimLeadingZero(getTime(csv[field]));
         }
         csv['dateDisplay'] = getDate(csv['date']);
         csv['activityId'] = csv['file'].split('.')[0].split('_')[1];
+        csv['duration'] = trimLeadingZero(csv['duration'].split(':').slice(0, 2).join(':'));
+        csv['dayOfTheWeek'] = days[new Date(csv['date']).getDay()];
     }
 }
 
@@ -82,7 +84,7 @@ function readFromCsv(resolve) {
                 }
                 addDisplayValues(resultsCsv);
                 console.log('getActivitiesFromCsv', resultsCsv[0]);
-                console.log('getActivitiesFromCsv', resultsCsv[1]);
+                // console.log('getActivitiesFromCsv', resultsCsv[1]);
                 // moveGpxFiles(listGpx);
 
                 // writeResult(resultsCsv, config.outputFile);
