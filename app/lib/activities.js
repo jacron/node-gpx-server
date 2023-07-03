@@ -44,7 +44,7 @@ function insertResultsFromGpx(resultsCsv, listGpx) {
 
 function getTime(dateTime) {
     if (!dateTime) return '';
-    //2023-07-01T15:26:11.000Z | 9:07
+    //2023-07-01T15:26:11.000Z | 9:07 - uit gpx | activitiesOut.csv
     let seperator = null;
     if (dateTime.indexOf('T') > 0)  {
         seperator = 'T';
