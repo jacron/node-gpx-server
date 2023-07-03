@@ -44,7 +44,18 @@ function insertResultsFromGpx(resultsCsv, listGpx) {
 
 function getTime(dateTime) {
     if (!dateTime) return '';
-    return dateTime.split('T')[1].split('.')[0].split(':').slice(0, 2).join(':');
+    //2023-07-01T15:26:11.000Z | 9:07
+    let seperator = null;
+    if (dateTime.indexOf('T') > 0)  {
+        seperator = 'T';
+    }
+    if (dateTime.indexOf(' ') > 0)  {
+        seperator = ' ';
+    }
+    if (!seperator) {
+        return dateTime;
+    }
+    return dateTime.split(seperator)[1].split('.')[0].split(':').slice(0, 2).join(':');
 }
 
 function getDate(dateTime) {
