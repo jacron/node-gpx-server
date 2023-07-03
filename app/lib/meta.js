@@ -3,6 +3,7 @@ const {getDataFromFilename} = require("./util");
 const {parseString: parseXmlString} = require("xml2js");
 const {readCsv} = require("./csv");
 const {getRawDuration} = require("./dateutil");
+const config = require("../../config");
 
 async function addFromCsv(result, csvfile) {
     if (fs.existsSync(csvfile)) {
@@ -78,21 +79,15 @@ function getMetaFromGpx(/*Gpx*/gpx) {
         return metaresult;
     }
     const trk = gpx.trk[0];
-    const link = getLink(trk);
-    const name = trk.name[0];
-    const desc = getDescription(trk);
-    const type = trk.type ? trk.type[0] : '';
-    const date = getDate(gpx.metadata[0]);
-    const creator = gpx.$.creator ? gpx.$.creator : '';
     const [start, finish, duration] = getStartFinishTimes(trk);
     const [firstPoint, endPoint] = getStartFinishPoints(trk);
     return(/* Metaresult */{
-        name,
-        desc,
-        link,
-        type,
-        date,
-        creator,
+        name: trk.name[0],
+        desc: getDescription(trk),
+        link: getLink(trk),
+        type: trk.type ? trk.type[0] : '',
+        date: getDate(gpx.metadata[0]),
+        creator: gpx.$.creator ? gpx.$.creator : '',
         duration,
         start,
         finish,
@@ -114,25 +109,34 @@ function parseXmlToMeta(data) {
     });
 }
 
-async function getMetaFile(file, activitiesMap) {
-    const gpxfile = `${activitiesMap}/${file}`;
-    const jsonfile = gpxfile.replace('.gpx', '.json');
+function parsedJson(jsonfile, file) {
+    const json = fs.readFileSync(jsonfile, 'utf-8');
+    const record = JSON.parse(json);
+    return {...record, file};
+}
+
+async function createJson(jsonfile, gpxfile, file) {
     const csvfile = gpxfile.replace('.gpx', '.csv');
+    const text = fs.readFileSync(gpxfile, 'utf-8');
+    let result = await parseXmlToMeta(text);
+    if (!result) {
+        result = getDataFromFilename(file);
+    }
+    if (result) {
+        await addFromCsv(result, csvfile);
+        fs.writeFileSync(jsonfile, JSON.stringify(result));
+    }
+    return {...result, file};
+}
+
+async function getMetaFile(file, activitiesMap) {
+    const prefix = activitiesMap? activitiesMap : config.activitiesMap;
+    const gpxfile = `${prefix}/${file}`;
+    const jsonfile = gpxfile.replace('.gpx', '.json');
     if (fs.existsSync(jsonfile)) {
-        const json = fs.readFileSync(jsonfile, 'utf-8');
-        const record = JSON.parse(json);
-        return {...record, file};
+        return parsedJson(jsonfile, file);
     } else {
-        const text = fs.readFileSync(gpxfile, 'utf-8');
-        let result = await parseXmlToMeta(text);
-        if (!result) {
-            result = getDataFromFilename(file);
-        }
-        if (result) {
-            await addFromCsv(result, csvfile);
-            fs.writeFileSync(jsonfile, JSON.stringify(result));
-        }
-        return {...result, file};
+        return createJson(jsonfile, gpxfile, file);
     }
 }
 
