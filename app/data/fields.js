@@ -63,7 +63,7 @@ const gpxFields = [
 
 const extendedGpxFields = [
     'file', 'start', 'finish', 'type', 'date', 'name', 'distance',
-    'duration', 'speed', 'maxSpeed', 'elevation'
+    'duration', 'speed', 'maxSpeed', 'elevation', 'firstPoint', 'endPoint'
 ];
 
 module.exports = {fields, csvFields, extendedCsvFields, gpxFields, extendedGpxFields};

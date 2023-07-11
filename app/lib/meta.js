@@ -4,15 +4,14 @@ const {parseString: parseXmlString} = require("xml2js");
 const {readCsv} = require("./csv");
 const {getRawDuration} = require("./dateutil");
 const config = require("../../config");
+const {csvFields} = require("../data/fields");
 
 async function addFromCsv(result, csvfile) {
     if (fs.existsSync(csvfile)) {
         const dataFromCsv = await readCsv(csvfile);
         // De laatste regel bevat de totalen van alle ronden.
         const totals = dataFromCsv[dataFromCsv.length - 1];
-        for (const field of [
-            'distance', 'duration', 'speed', 'maxSpeed',
-            'elevation', 'temperature']) {
+        for (const field of csvFields) {
             result[field] = totals[field];
         }
         return true;
@@ -118,15 +117,15 @@ function parsedJson(jsonfile, file) {
 async function createJson(jsonfile, gpxfile, file) {
     const csvfile = gpxfile.replace('.gpx', '.csv');
     const text = fs.readFileSync(gpxfile, 'utf-8');
-    let result = await parseXmlToMeta(text);
-    if (!result) {
-        result = getDataFromFilename(file);
+    let gpx = await parseXmlToMeta(text);
+    if (!gpx) {
+        gpx = getDataFromFilename(file);
     }
-    if (result) {
-        await addFromCsv(result, csvfile);
-        fs.writeFileSync(jsonfile, JSON.stringify(result));
+    if (gpx) {
+        await addFromCsv(gpx, csvfile);
+        fs.writeFileSync(jsonfile, JSON.stringify(gpx));
     }
-    return {...result, file};
+    return {...gpx, file};
 }
 
 async function getMetaFile(file, activitiesMap) {
@@ -153,4 +152,4 @@ async function getMetaList(files, activitiesMap) {
     });
 }
 
-module.exports = {getMetaFile, getMetaList};
+module.exports = {getMetaFile, getMetaList, getMetaFromGpx};

@@ -1,51 +1,12 @@
 const { readCsvRaw} = require("./csv");
 const config = require("../../config");
-const {sameDate, trimLeadingZero} = require("./util");
+const {sameDate, trimLeadingZero, getTime, getDate} = require("./util");
 const {getAllGpx} = require("./gpx");
 const {writeResult} = require("./write-csv");
 const {moveGpxFiles} = require("./moveFiles");
 const {gpxFields, extendedGpxFields, extendedCsvFields} = require("../data/fields");
-const {months, days} = require("../data/time");
-
-function updateActivitiesCsvFromGpx(csv, gpx) {
-    // console.log('gpx', gpx);
-    for (const field of extendedGpxFields) {
-        csv[field] = gpx[field];
-    }
-}
-
-function insertResultsFromGpx(resultsCsv, listGpx) {
-    for (const gpx of listGpx) {
-        const csv = {};
-        updateActivitiesCsvFromGpx(csv, gpx);
-        resultsCsv.unshift(csv);
-    }
-}
-
-function getTime(dateTime) {
-    if (!dateTime) return '';
-    //2023-07-01T15:26:11.000Z | 9:07 - uit gpx | activitiesOut.csv
-    let seperator = null;
-    if (dateTime.indexOf('T') > 0)  {
-        seperator = 'T';
-    }
-    if (dateTime.indexOf(' ') > 0)  {
-        seperator = ' ';
-    }
-    if (!seperator) {
-        return dateTime;
-    }
-    return dateTime.split(seperator)[1].split('.')[0].split(':').slice(0, 2).join(':');
-}
-
-function getDate(dateTime) {
-    //'2023-06-23 16:04:53' | '2023-06-23T16:04:53.000Z'
-    const seperator = dateTime.indexOf('T') > 0 ? 'T' : ' ';
-    const w = dateTime.split(seperator)[0].split('-');
-    const date = w[2] + ' ' + months[+w[1] - 1];
-    const year = w[0];
-    return `${date}-${year}`;
-}
+const {days} = require("../data/time");
+const {getMetaFromGpx} = require("./meta");
 
 function addDisplayValues(resultsCsv) {
     for (const csv of resultsCsv) {
@@ -63,24 +24,45 @@ function addDisplayValues(resultsCsv) {
 }
 
 function getGpxfileWithCurrentActivities(resultsCsv, listGpx) {
-    for (const csv of resultsCsv) {
-        for (const gpx of listGpx) {
+    const gpxold = [];
+    const gpxnew = [];
+    for (const gpx of listGpx) {
+        let found = false;
+        for (const csv of resultsCsv) {
             if (sameDate(gpx, csv)) {
-                return gpx;
+                gpxold.push([gpx, csv]);
             }
         }
+        if (!found) {
+            gpxnew.push(gpx);
+        }
     }
-    return null;
+    return [gpxold, gpxnew];
 }
 
-function enrichResultsFromGpx(resultsCsv, gpxfile) {
-    for (const csv of resultsCsv) {
+function insertResultsFromGpx(resultsCsv, listGpxNew) {
+    for (const gpx of listGpxNew) {
+        const csv = {};
+        for (const field of extendedGpxFields) {
+            csv[field] = gpx[field];
+        }
+        resultsCsv.unshift(csv);
+    }
+}
+
+function enrichResultsFromGpx(resultsCsv, listGpxOld) {
+    for (const [gpx, csv] of listGpxOld) {
         for (const field of gpxFields) {
-            csv[field] = gpxfile[field];
+            csv[field] = gpx[field];
         }
     }
 }
 
+function tryEnrichList(listGpx) {
+    const gpx = listGpx[0];
+    console.log(gpx.firstPoint)
+    gpx.tryFirstPoint = 'testTry';  // JSON.stringify(listGpx[0].firstPoint);
+}
 function readFromCsv(resolve) {
     readCsvRaw(config.outputFile).then(resultsCsv => {
         getAllGpx(config.activitiesNewMap).then(listGpx => {
@@ -88,15 +70,17 @@ function readFromCsv(resolve) {
                 resolve(resultsCsv);
             } else {
                 console.log(listGpx.length, 'gpx files found');
-                const gpxfile = getGpxfileWithCurrentActivities(resultsCsv, listGpx);
-                if (gpxfile) {
-                    enrichResultsFromGpx(resultsCsv, gpxfile);
-                } else {
-                    insertResultsFromGpx(resultsCsv, listGpx);
-                }
+                const [gpxold, gpxnew] = getGpxfileWithCurrentActivities(resultsCsv, listGpx);
+                // console.log(gpxold.length, 'gpx files old')
+                // console.log(gpxnew.length, 'gpx files new')
+                console.log(listGpx);
+                tryEnrichList(listGpx)
+                enrichResultsFromGpx(resultsCsv, gpxold);
+                insertResultsFromGpx(resultsCsv, gpxnew);
                 addDisplayValues(resultsCsv);
-                moveGpxFiles(listGpx);
-                writeResult(resultsCsv, config.outputFile, extendedCsvFields);
+                // testing...
+                // moveGpxFiles(listGpx);
+                // writeResult(resultsCsv, config.outputFile, extendedCsvFields);
                 resolve(resultsCsv);
             }
         });

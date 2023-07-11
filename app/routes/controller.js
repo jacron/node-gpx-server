@@ -14,7 +14,10 @@ const metaFile = (req, res) => {
 
 const listActiviteitenFromCsv = (req, res) => {
     getActivitiesFromCsv()
-        .then((data) => res.send(data))
+        .then((data) => {
+            console.dir(data[0])
+            res.send(data)
+        })
         .catch(err => res.send(JSON.stringify(err)))
 };
 

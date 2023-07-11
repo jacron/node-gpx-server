@@ -1,4 +1,5 @@
 const {dateFromFile} = require("./dateutil");
+const {months} = require("../data/time");
 
 function hasExtension(s, ext) {
     const p = s.lastIndexOf('.');
@@ -59,5 +60,30 @@ function getDataFromFilename(file) {
     }
 }
 
+function getTime(dateTime) {
+    if (!dateTime) return '';
+    //2023-07-01T15:26:11.000Z | 9:07 - uit gpx | activitiesOut.csv
+    let seperator = null;
+    if (dateTime.indexOf('T') > 0)  {
+        seperator = 'T';
+    }
+    if (dateTime.indexOf(' ') > 0)  {
+        seperator = ' ';
+    }
+    if (!seperator) {
+        return dateTime;
+    }
+    return dateTime.split(seperator)[1].split('.')[0].split(':').slice(0, 2).join(':');
+}
+
+function getDate(dateTime) {
+    //'2023-06-23 16:04:53' | '2023-06-23T16:04:53.000Z'
+    const seperator = dateTime.indexOf('T') > 0 ? 'T' : ' ';
+    const w = dateTime.split(seperator)[0].split('-');
+    const date = w[2] + ' ' + months[+w[1] - 1];
+    const year = w[0];
+    return `${date}-${year}`;
+}
+
 module.exports = {getDataFromFilename, hasExtension, firstWord,
-    sameDate, trimLeadingZero};
+    sameDate, trimLeadingZero, getTime, getDate};
