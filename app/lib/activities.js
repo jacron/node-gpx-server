@@ -11,10 +11,10 @@ const {getMetaFromGpx} = require("./meta");
 function addDisplayValues(resultsCsv) {
     for (const csv of resultsCsv) {
         for (const field of ['distance', 'duration', 'speed', 'maxSpeed']) {
-            csv[field] = csv[field].replace(',', '.');
+            if (csv[field]) {csv[field] = csv[field].replace(',', '.')}
         }
         for (const field of ['start', 'finish']) {
-            csv[field] = trimLeadingZero(getTime(csv[field]));
+            if (csv[field]) {csv[field] = trimLeadingZero(getTime(csv[field]));}
         }
         csv['dateDisplay'] = getDate(csv['date']);
         csv['activityId'] = csv['file'].split('.')[0].split('_')[1];
@@ -58,11 +58,6 @@ function enrichResultsFromGpx(resultsCsv, listGpxOld) {
     }
 }
 
-function tryEnrichList(listGpx) {
-    const gpx = listGpx[0];
-    console.log(gpx.firstPoint)
-    gpx.tryFirstPoint = 'testTry';  // JSON.stringify(listGpx[0].firstPoint);
-}
 function readFromCsv(resolve) {
     readCsvRaw(config.outputFile).then(resultsCsv => {
         getAllGpx(config.activitiesNewMap).then(listGpx => {
@@ -74,7 +69,6 @@ function readFromCsv(resolve) {
                 // console.log(gpxold.length, 'gpx files old')
                 // console.log(gpxnew.length, 'gpx files new')
                 console.log(listGpx);
-                tryEnrichList(listGpx)
                 enrichResultsFromGpx(resultsCsv, gpxold);
                 insertResultsFromGpx(resultsCsv, gpxnew);
                 addDisplayValues(resultsCsv);

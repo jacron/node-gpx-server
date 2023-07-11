@@ -7,16 +7,13 @@ const config = require("../../config");
 const {csvFields} = require("../data/fields");
 
 async function addFromCsv(result, csvfile) {
-    if (fs.existsSync(csvfile)) {
-        const dataFromCsv = await readCsv(csvfile);
-        // De laatste regel bevat de totalen van alle ronden.
-        const totals = dataFromCsv[dataFromCsv.length - 1];
-        for (const field of csvFields) {
-            result[field] = totals[field];
-        }
-        return true;
+    const dataFromCsv = await readCsv(csvfile);
+    // De laatste regel bevat de totalen van alle ronden.
+    const totals = dataFromCsv[dataFromCsv.length - 1];
+    for (const field of csvFields) {
+        result[field] = totals[field];
     }
-    return false;
+    return true;
 }
 
 function getLink(trk) {
@@ -122,7 +119,9 @@ async function createJson(jsonfile, gpxfile, file) {
         gpx = getDataFromFilename(file);
     }
     if (gpx) {
-        await addFromCsv(gpx, csvfile);
+        if (fs.existsSync(csvfile)) {
+            await addFromCsv(gpx, csvfile);
+        }
         fs.writeFileSync(jsonfile, JSON.stringify(gpx));
     }
     return {...gpx, file};
