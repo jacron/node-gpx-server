@@ -5,6 +5,7 @@ const {readCsv} = require("./csv");
 const {getRawDuration} = require("./dateutil");
 const config = require("../../config");
 const {csvFields} = require("../data/fields");
+const gpxParser = require('gpxparser');
 
 async function addFromCsv(result, csvfile) {
     const dataFromCsv = await readCsv(csvfile);
@@ -69,11 +70,25 @@ function getStartFinishPoints(trk) {
     return [firstPoint, endPoint];
 }
 
-function getMetaFromGpx(/*Gpx*/gpx) {
+/**
+ * Als je de csv (tussentijden) niet hebt, dan kun je provisorisch met gpxparser de afstand berekenen.
+ * @param data
+ * @returns {string}
+ */
+function getDistance(data) {
+    const parser = new gpxParser();
+    parser.parse(data);
+    const track = parser.tracks[0];
+    let distance = track.distance.total / 1000;
+    return distance.toFixed(2);
+}
+
+function getMetaFromGpx(/*Gpx*/gpx, data) {
     let metaresult = null;
     if (!gpx.metadata) {
         return metaresult;
     }
+    const distance = getDistance(data);
     const trk = gpx.trk[0];
     const [start, finish, duration] = getStartFinishTimes(trk);
     const [firstPoint, endPoint] = getStartFinishPoints(trk);
@@ -88,7 +103,8 @@ function getMetaFromGpx(/*Gpx*/gpx) {
         start,
         finish,
         firstPoint,
-        endPoint
+        endPoint,
+        distance,
     });
 }
 
@@ -99,7 +115,7 @@ function parseXmlToMeta(data) {
                 console.error(err);
                 reject(err.message);
             } else {
-                resolve(getMetaFromGpx(result.gpx));
+                resolve(getMetaFromGpx(result.gpx, data));
             }
         }, null);
     });
@@ -130,6 +146,7 @@ async function createJson(jsonfile, gpxfile, file) {
 async function getMetaFile(file, activitiesMap) {
     const prefix = activitiesMap? activitiesMap : config.activitiesMap;
     const gpxfile = `${prefix}/${file}`;
+    // for backward compatibility: use/produce json file
     const jsonfile = gpxfile.replace('.gpx', '.json');
     if (fs.existsSync(jsonfile)) {
         return parsedJson(jsonfile, file);
@@ -151,4 +168,4 @@ async function getMetaList(files, activitiesMap) {
     });
 }
 
-module.exports = {getMetaFile, getMetaList, getMetaFromGpx};
+module.exports = {getMetaFile, getMetaList};

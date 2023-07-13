@@ -4,8 +4,6 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
-const {listenToDownloads} = require("./app/lib/listen");
-const {listeningToGarmin} = require("./config");
 require('./app/trace-console-logs');
 
 const app = express();

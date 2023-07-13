@@ -1,3 +1,4 @@
+/* 'dir' is the only one that doesn't print the stack trace by default */
 ['log', 'warn', 'error'].forEach((methodName) => {
   const originalMethod = console[methodName];
   console[methodName] = (...args) => {

@@ -1,6 +1,5 @@
 const {updateGpx, getGpx, getAllGpx} = require("../lib/gpx");
 const {importFromCsv} = require("../lib/csv_gpx");
-const {getListening, toggleListenerState} = require("../lib/listen");
 const {getActivitiesFromCsv} = require("../lib/activities");
 const {getMetaFile} = require("../lib/meta");
 const {activitiesMap} = require("../../config");
@@ -15,7 +14,6 @@ const metaFile = (req, res) => {
 const listActiviteitenFromCsv = (req, res) => {
     getActivitiesFromCsv()
         .then((data) => {
-            console.dir(data[0])
             res.send(data)
         })
         .catch(err => res.send(JSON.stringify(err)))
@@ -54,17 +52,4 @@ const file = (req, res) => {
         .catch(err => res.send(JSON.stringify(err)))
 };
 
-const getlistenerState = (req, res) => {
-    console.log('getlistenerState');
-    res.send(JSON.stringify(getListening()));
-};
-
-const setlistenerState = (req, res) => {
-    const {state} = req.body;
-    console.log('setlistenerState');
-    console.log(state);  // true / false
-    toggleListenerState(state);
-    res.send(JSON.stringify(state));
-};
-
-module.exports = {metaFile, listActiviteitenFromCsv, listRoutes, importXls, update, file, getlistenerState, setlistenerState};
+module.exports = {metaFile, listActiviteitenFromCsv, listRoutes, importXls, update, file};

@@ -6,7 +6,6 @@ const {writeResult} = require("./write-csv");
 const {moveGpxFiles} = require("./moveFiles");
 const {gpxFields, extendedGpxFields, extendedCsvFields} = require("../data/fields");
 const {days} = require("../data/time");
-const {getMetaFromGpx} = require("./meta");
 
 function addDisplayValues(resultsCsv) {
     for (const csv of resultsCsv) {
@@ -23,7 +22,7 @@ function addDisplayValues(resultsCsv) {
     }
 }
 
-function getGpxfileWithCurrentActivities(resultsCsv, listGpx) {
+function getGpxfilesWithCurrentActivities(resultsCsv, listGpx) {
     const gpxold = [];
     const gpxnew = [];
     for (const gpx of listGpx) {
@@ -64,17 +63,12 @@ function readFromCsv(resolve) {
             if (listGpx.length === 0) {
                 resolve(resultsCsv);
             } else {
-                console.log(listGpx.length, 'gpx files found');
-                const [gpxold, gpxnew] = getGpxfileWithCurrentActivities(resultsCsv, listGpx);
-                // console.log(gpxold.length, 'gpx files old')
-                // console.log(gpxnew.length, 'gpx files new')
-                console.log(listGpx);
+                const [gpxold, gpxnew] = getGpxfilesWithCurrentActivities(resultsCsv, listGpx);
                 enrichResultsFromGpx(resultsCsv, gpxold);
                 insertResultsFromGpx(resultsCsv, gpxnew);
                 addDisplayValues(resultsCsv);
-                // testing...
-                // moveGpxFiles(listGpx);
-                // writeResult(resultsCsv, config.outputFile, extendedCsvFields);
+                writeResult(resultsCsv, config.outputFile, extendedCsvFields);
+                moveGpxFiles(listGpx);
                 resolve(resultsCsv);
             }
         });
