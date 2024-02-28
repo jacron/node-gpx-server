@@ -33,17 +33,17 @@ app.use(function(req, res, next) {
 });
 
 // error handler
-app.use(function(err, req, res) {
-  // set locals, only providing error in development
-  if (res.locals) {
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
-  } else {
-    console.log(err.message)
-  }
-  // render the error page
-  res.sendStatus(err.status || 500);
-  res.render('error');
-});
+// app.use(function(err, req, res) {
+//   // set locals, only providing error in development
+//   if (res.locals) {
+//     res.locals.message = err.message;
+//     res.locals.error = req.app.get('env') === 'development' ? err : {};
+//   } else {
+//     console.log(err.toString())
+//   }
+//   // render the error page
+//   res.sendStatus(err.status || 500);
+//   res.render('error');
+// });
 
 module.exports = app;
