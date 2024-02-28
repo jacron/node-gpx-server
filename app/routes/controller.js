@@ -56,7 +56,6 @@ const file = (req, res) => {
 
 const exists = (req, res) => {
     const {id} = req.params;
-    console.log(id);
     readCsvRaw(config.outputFile).then(resultsCsv => {
         const filtered = resultsCsv.filter(a => a.activityId === id);
         const exists = filtered.length === 1;

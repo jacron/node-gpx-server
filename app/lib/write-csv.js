@@ -16,7 +16,7 @@ function writeResult(resultsCsv, path, fields) {
     createCsvWriter({header: headers, path: path})
         .writeRecords(resultsCsv)
         .then(() => {
-            console.log('The CSV file was written successfully!')
+            console.log('The CSV file was written successfully to ' + path + '!')
         })
         .catch((err) => {
             console.log(`Error writing CSV file: ${err}`);

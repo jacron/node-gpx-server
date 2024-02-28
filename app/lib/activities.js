@@ -63,6 +63,7 @@ function readFromCsv(resolve) {
             if (listGpx.length === 0) {
                 resolve(resultsCsv);
             } else {
+                console.log(listGpx.length + ' bestanden in newactivities');
                 const [gpxold, gpxnew] = getGpxfilesWithCurrentActivities(resultsCsv, listGpx);
                 enrichResultsFromGpx(resultsCsv, gpxold);
                 insertResultsFromGpx(resultsCsv, gpxnew);

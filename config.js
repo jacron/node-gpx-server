@@ -9,5 +9,6 @@ module.exports = {
     activitiesXlsFile: homedir + "/csv/activities.xlsx",
     activitiesCsvFile: homedir + "/csv/Activities.csv",
     outputFile: homedir + "/csv/ActivitiesOut.csv",
-    activitiesNewMap: realHomedir + "/newactivities",  //  homedir + "/activities-new",
+    activitiesNewMap: realHomedir + "/Downloads/newactivities",  //  homedir + "/activities-new",
 };
+///Users/ares/Downloads/newactivites
