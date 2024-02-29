@@ -21,6 +21,8 @@ app.use(cookieParser());
 
 app.use('/', require('./app/routes'));
 
+app.disable('etag');
+
 // listen to downloadfolder
 // if (listeningToGarmin) {
 //   listenToDownloads();
