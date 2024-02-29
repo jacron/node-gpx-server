@@ -15,7 +15,7 @@ function sameDate(gpx, csv) {
         return false;
     }
     const listDate = firstWord(gpx.date
-        .replace('T', ' ')
+        .replace('T', '') // in NL ontbreekt T?
         .replace('.000Z', ''));
     const resultDate = firstWord(csv.date);
     return listDate === resultDate;
