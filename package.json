@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node app/bin/www",
-    "pcopy": "cp plist/orion/nl.jcroonen.gpxserver.plist ~/Library/LaunchAgents",
+    "pcopy": "cp plist/ares/nl.jcroonen.gpxserver.plist ~/Library/LaunchAgents",
     "pstart": "launchctl start nl.jcroonen.gpxserver",
     "pstop": "launchctl stop nl.jcroonen.gpxserver",
     "pload": "launchctl load -w ~/Library/LaunchAgents/nl.jcroonen.gpxserver.plist",
