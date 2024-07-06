@@ -1,4 +1,4 @@
-const {updateGpx, getGpx, getAllGpx, readAllRealGpx} = require("../lib/gpx");
+const {updateGpx, getGpx, getAllGpx, readAllRealGpx, getNearbyActivities} = require("../lib/gpx");
 const {importFromCsv} = require("../lib/csv_gpx");
 const {getActivitiesFromCsv} = require("../lib/activities");
 const {getMetaFile} = require("../lib/meta");
@@ -24,61 +24,12 @@ const listActiviteitenFromCsv = (req, res) => {
         .catch(err => res.send(JSON.stringify(err)))
 };
 
-// Hulpfunctie om de afstand tussen twee geografische punten te berekenen
-function haversineDistance(coords1, coords2) {
-    const toRad = (x) => x * Math.PI / 180;
-    const lat1 = coords1[0];
-    const lon1 = coords1[1];
-    const lat2 = coords2[0];
-    const lon2 = coords2[1];
-
-    const R = 6371; // Radius of the Earth in km
-    const x1 = lat2 - lat1;
-    const dLat = toRad(x1);
-    const x2 = lon2 - lon1;
-    const dLon = toRad(x2);
-    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-        Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const d = R * c;
-    return d;
-}
-
 const lonlatList = (req, res) => {
-    console.log(req.params);
     const lat = parseFloat(req.params.lat);
     const lng = parseFloat(req.params.lon);
-    const radius = 1; // ongeveer 1 km radiusconst
-    const relevantFiles = [];
-
-    readAllRealGpx(config.activitiesMap,listGpx => {
-        console.log(listGpx[0]);
-        let found = 0;
-        // const gpx = listGpx[0];
-        for (const gpx of listGpx) {
-            const filePath = join(config.activitiesMap, gpx);
-            const gpxData = readFileSync(filePath, 'utf-8');
-            const parser = new gpxParser();
-            parser.parse(gpxData);
-            let isRelevant = false;
-            for (const track of parser.tracks) {
-                if (isRelevant) break;
-                for (const point of track.points) {
-                    const distance = haversineDistance([lat, lng], [point.lat, point.lon]);
-                    if (distance <= radius) {
-                        relevantFiles.push(gpx);
-                        isRelevant = true;
-                        console.log('found: ' + gpx)
-                        found++;
-                        break;
-                    }
-                }
-            }
-        }
-        console.log('*** Found: ' + found);
-    }, err => console.error(err));
-    res.send(JSON.stringify('ok'));
+    getNearbyActivities(lat, lng)
+        .then((data) => res.send(data))
+        .catch(err => res.send(JSON.stringify(err)))
 }
 
 const listRoutes =  (req, res) => {

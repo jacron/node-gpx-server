@@ -2,6 +2,9 @@ const fs = require('fs');
 const config = require('../../config');
 const {hasExtension} = require("./util");
 const {getMetaList} = require("./meta");
+const {join} = require("node:path");
+const {readFileSync} = require("fs");
+const gpxParser = require("gpxparser");
 
 function getGpx(file) {
     const p = `${config.activitiesMap}/${file}`;
@@ -72,11 +75,63 @@ function readAllRealGpx(activitiesMap, resolve, reject) {
     })
 }
 
+// Hulpfunctie om de afstand tussen twee geografische punten te berekenen
+function haversineDistance(coords1, coords2) {
+    const toRad = (x) => x * Math.PI / 180;
+    const lat1 = coords1[0];
+    const lon1 = coords1[1];
+    const lat2 = coords2[0];
+    const lon2 = coords2[1];
+
+    const R = 6371; // Radius of the Earth in km
+    const x1 = lat2 - lat1;
+    const dLat = toRad(x1);
+    const x2 = lon2 - lon1;
+    const dLon = toRad(x2);
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const d = R * c;
+    return d;
+}
+
+function getNearbyActivities(lat, lng) {
+    return new Promise((resolve, reject) => {
+        readAllRealGpx(config.activitiesMap,listGpx => {
+            let found = 0;
+            const radius = 1; // ongeveer 1 km radiusconst
+            const relevantFiles = [];
+            for (const gpx of listGpx) {
+                const filePath = join(config.activitiesMap, gpx);
+                const gpxData = readFileSync(filePath, 'utf-8');
+                const parser = new gpxParser();
+                parser.parse(gpxData);
+                let isRelevant = false;
+                for (const track of parser.tracks) {
+                    if (isRelevant) break;
+                    for (const point of track.points) {
+                        const distance = haversineDistance([lat, lng], [point.lat, point.lon]);
+                        if (distance <= radius) {
+                            relevantFiles.push(gpx);
+                            isRelevant = true;
+                            console.log('found: ' + gpx)
+                            found++;
+                            break;
+                        }
+                    }
+                }
+            }
+            console.log('*** Found: ' + found);
+            resolve(relevantFiles);
+        }, err => reject(err))
+    })
+}
+
 function getAllGpx(activitiesMap) {
-    /* Routes */
     return new Promise((resolve, reject) => {
         readAllGpx(activitiesMap, resolve, reject);
     });
 }
 
-module.exports = {getGpx, updateGpx, getAllGpx, readAllRealGpx};
+module.exports = {getGpx, updateGpx, getAllGpx, getNearbyActivities};
