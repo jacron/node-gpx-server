@@ -5,6 +5,7 @@ const {getMetaList} = require("./meta");
 const {join} = require("node:path");
 const {readFileSync} = require("fs");
 const gpxParser = require("gpxparser");
+const {addDisplayValues} = require("./display");
 
 function getGpx(file) {
     const p = `${config.activitiesMap}/${file}`;
@@ -100,7 +101,7 @@ function getNearbyActivities(lat, lng) {
     return new Promise((resolve, reject) => {
         readAllRealGpx(config.activitiesMap,listGpx => {
             let found = 0;
-            const radius = 1; // ongeveer 1 km radiusconst
+            const radius = 0.1; // ongeveer 1 km radiusconst
             const relevantFiles = [];
             for (const gpx of listGpx) {
                 const filePath = join(config.activitiesMap, gpx);
@@ -123,7 +124,14 @@ function getNearbyActivities(lat, lng) {
                 }
             }
             console.log('*** Found: ' + found);
-            resolve(relevantFiles);
+            getMetaList(relevantFiles, config.activitiesMap).then(list => {
+                addDisplayValues(list);
+                resolve(list);
+            }).catch(err => {
+                console.error(err);
+                reject(err.message);
+            });
+            // resolve(relevantFiles);
         }, err => reject(err))
     })
 }
