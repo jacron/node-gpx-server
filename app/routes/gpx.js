@@ -1,5 +1,6 @@
 const {
-    listRoutes, listActiviteitenFromCsv, metaFile, file, importXls, update, exists
+    listRoutes, listActiviteitenFromCsv, lonlatList,
+    metaFile, file, importXls, update, exists
 } = require("./controller");
 /**
  * api calls for gpx
@@ -12,6 +13,7 @@ router.get('/list/all', listActiviteitenFromCsv);
 router.get('/list', listRoutes);
 router.get('/meta/:file', metaFile);
 router.get('/exists/:id', exists);
+router.get('/list/:lon/:lat', lonlatList);
 /** GET gpx from file  NB must be the LAST get in this list! */
 router.get('/:file', file);
 

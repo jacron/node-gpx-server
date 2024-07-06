@@ -21,6 +21,12 @@ const listActiviteitenFromCsv = (req, res) => {
         .catch(err => res.send(JSON.stringify(err)))
 };
 
+const lonlatList = (req, res) => {
+    const {lon, lat} = req.params;
+    console.log(req.params);
+    res.send(JSON.stringify('ok'));
+}
+
 const listRoutes =  (req, res) => {
     getAllGpx(activitiesMap)
         .then((data) => res.send(data))
@@ -63,5 +69,7 @@ const exists = (req, res) => {
     });
 }
 
-module.exports = {metaFile, listActiviteitenFromCsv, listRoutes, importXls,
-    update, file, exists};
+module.exports = {
+    metaFile, lonlatList,
+    listActiviteitenFromCsv, listRoutes,
+    importXls, update, file, exists};
