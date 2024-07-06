@@ -61,6 +61,17 @@ function readAllGpx(activitiesMap, resolve, reject) {
     })
 }
 
+function readAllRealGpx(activitiesMap, resolve, reject) {
+    fs.readdir(activitiesMap, (err, files) => {
+        if (err) {
+            console.error(err);
+            reject(err.message);
+        } else {
+            resolve(files.filter(file => hasExtension(file, 'gpx')));
+        }
+    })
+}
+
 function getAllGpx(activitiesMap) {
     /* Routes */
     return new Promise((resolve, reject) => {
@@ -68,4 +79,4 @@ function getAllGpx(activitiesMap) {
     });
 }
 
-module.exports = {getGpx, updateGpx, getAllGpx};
+module.exports = {getGpx, updateGpx, getAllGpx, readAllRealGpx};
