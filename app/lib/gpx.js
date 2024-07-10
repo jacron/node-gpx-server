@@ -156,10 +156,9 @@ function getBoundingBox(lat, lon, radius) {
 }
 
 function getNearbyActivities(lat, lng) {
+    const radius = 1; // waarde in km
     return new Promise((resolve, reject) => {
         makeTree().then(tree => {
-            // console.log(tree)
-            const radius = 1; // ongeveer 100 m radiusconst
             const [minLon, minLat, maxLon, maxLat] = getBoundingBox(lat, lng, radius);
             const results = tree.search({
                 minX: minLon,
@@ -167,24 +166,22 @@ function getNearbyActivities(lat, lng) {
                 maxX: maxLon,
                 maxY: maxLat
             })
-            // console.log(results)
             console.log(radius)
             const relevantFiles = new Set();
             results.forEach(item => {
                 const distance = haversineDistance([lat, lng], [item.minY, item.minX]);
-                // console.log(distance)
                 if (distance <= radius) {
                     relevantFiles.add(item.file);
-                    // console.log('found: ' + item.file)
                 }
             });
             getMetaList(relevantFiles, config.activitiesMap).then(list => {
-                console.log(list);
+                console.log(list.length);
                 addDisplayValues(list);
                 resolve(list);
             });
         });
     });
+
         // readAllRealGpx(config.activitiesMap, listGpx => {
         //     let found = 0;
         //     const relevantFiles = [];
@@ -217,7 +214,7 @@ function getNearbyActivities(lat, lng) {
         //         console.error(err);
         //         reject(err.message);
         //     });
-            // resolve(relevantFiles);
+        //     // resolve(relevantFiles);
         // }, err => reject(err))
     // })
 }
