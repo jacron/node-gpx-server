@@ -4,8 +4,6 @@ const {hasExtension} = require("./util");
 const {getMetaList} = require("./meta");
 const {join} = require("node:path");
 const {readFileSync} = require("fs");
-const gpxParser = require("gpxparser");
-// const RBush = require('rbush');
 const gpxParse = require('gpx-parse');
 const {addDisplayValues} = require("./display");
 
@@ -110,11 +108,8 @@ function makeTree() {
         }
         readAllRealGpx(config.activitiesMap, listGpx => {
             for (const gpx of listGpx) {
-                // console.log(gpx)
                 const filePath = join(config.activitiesMap, gpx);
                 const gpxData = readFileSync(filePath, 'utf-8');
-                // const parser = new gpxParser();
-                // parser.parse(gpxData);
                 gpxParse.parseGpx(gpxData, (error, data) => {
                     if (error) {
                         console.log('Error parsing GPX file: ', error);
@@ -181,42 +176,6 @@ function getNearbyActivities(lat, lng) {
             });
         });
     });
-
-        // readAllRealGpx(config.activitiesMap, listGpx => {
-        //     let found = 0;
-        //     const relevantFiles = [];
-        //
-        //     for (const gpx of listGpx) {
-        //         const filePath = join(config.activitiesMap, gpx);
-        //         const gpxData = readFileSync(filePath, 'utf-8');
-        //         const parser = new gpxParser();
-        //         parser.parse(gpxData);
-        //         let isRelevant = false;
-        //         for (const track of parser.tracks) {
-        //             if (isRelevant) break;
-        //             for (const point of track.points) {
-        //                 const distance = haversineDistance([lat, lng], [point.lat, point.lon]);
-        //                 if (distance <= radius) {
-        //                     relevantFiles.push(gpx);
-        //                     isRelevant = true;
-        //                     console.log('found: ' + gpx)
-        //                     found++;
-        //                     break;
-        //                 }
-        //             }
-        //         }
-        //     }
-        //     console.log('*** Found: ' + found);
-        //     getMetaList(relevantFiles, config.activitiesMap).then(list => {
-        //         addDisplayValues(list);
-        //         resolve(list);
-        //     }).catch(err => {
-        //         console.error(err);
-        //         reject(err.message);
-        //     });
-        //     // resolve(relevantFiles);
-        // }, err => reject(err))
-    // })
 }
 
 function getAllGpx(activitiesMap) {
