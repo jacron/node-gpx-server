@@ -1,3 +1,5 @@
+const {sendWebsocketMessage} = require("./socket");
+
 const fs = require("fs");
 const {hasExtension} = require("./util");
 const gpxParse = require( "gpx-parse");
@@ -43,15 +45,18 @@ function makeTree() {
     return new Promise(async (resolve, reject) => {
         const {default: RBush} = await import('rbush');
         const tree = new RBush();
-        // if (fs.existsSync(treeFilePath)) {
-        //     const treeData = fs.readFileSync(treeFilePath, 'utf-8');
-        //     resolve(tree.fromJSON(JSON.parse(treeData)));
-        //     return;
-        // }
+        if (fs.existsSync(treeFilePath)) {
+            const treeData = fs.readFileSync(treeFilePath, 'utf-8');
+            resolve(tree.fromJSON(JSON.parse(treeData)));
+            sendWebsocketMessage('Tree data fetched from file');
+            return;
+        }
+        sendWebsocketMessage('Calculating tree data. . .');
         readAllRealGpx(config.activitiesMap, listGpx => {
             for (const gpx of listGpx) {
                 const filePath = join(config.activitiesMap, gpx);
                 const gpxData = fs.readFileSync(filePath, 'utf-8');
+                sendWebsocketMessage('Reading gpx file: ' + gpx);
                 gpxParse.parseGpx(gpxData, (error, data) => {
                     if (error) {
                         console.log('Error parsing GPX file: ', error);
@@ -74,6 +79,7 @@ function makeTree() {
                 })
             }
             fs.writeFileSync(treeFilePath, JSON.stringify(tree.toJSON()));
+            sendWebsocketMessage('Tree data written to file.')
             resolve(tree);
         });
     })
@@ -104,15 +110,17 @@ function getNearbyActivities(lat, lng) {
                 maxY: maxLat
             })
             console.log(radius)
+            console.log(results.length)
             const relevantFiles = new Set();
             results.forEach(item => {
                 const distance = haversineDistance([lat, lng], [item.minY, item.minX]);
                 if (distance <= radius) {
                     relevantFiles.add(item.file);
+                    sendWebsocketMessage(item.file);
                 }
             });
             getMetaList(relevantFiles, config.activitiesMap).then(list => {
-                console.log(list.length);
+                // console.log(list.length);
                 addDisplayValues(list);
                 resolve(list);
             });

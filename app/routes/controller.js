@@ -6,6 +6,7 @@ const {activitiesMap} = require("../../config");
 const {readCsvRaw} = require("../lib/csv");
 const config = require("../../config");
 const {getNearbyActivities} = require("../lib/activitiesByLatLng");
+const {sendWebsocketMessage} = require("../bin/www");
 
 const metaFile = (req, res) => {
     const {file} = req.params;

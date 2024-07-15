@@ -8,6 +8,7 @@ const app = require('../../app');
 const debug = require('debug')('node-gpx-server:server');
 const http = require('http');
 const config = require('../../config');
+const {initWebsocketServer} = require("../lib/socket");
 
 /**
  * Get port from environment and store in Express.
@@ -87,31 +88,7 @@ function onListening() {
   const bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  // console.log('Listening on ' + bind);
   console.log('http://localhost:' + port);
 }
 
-const WebSocket = require('ws');
-// const wsServer = http.createServer();
-const wss = new WebSocket.Server({ server });
-
-wss.on('connection', (ws) => {
-  console.log('Client connected');
-
-  ws.on('message', (message) => {
-    console.log(`Received message => ${message}`);
-  });
-
-  // Simuleer een tijdrovende actie
-  const items = ['item1', 'item2', 'item3'];
-  items.forEach((item, index) => {
-    setTimeout(() => {
-      console.log(item, index)
-      ws.send(`Processing ${item}`);
-    }, index * 3000); // elke 3 seconden
-  });
-
-  ws.on('close', () => {
-    console.log('Client disconnected');
-  });
-});
+initWebsocketServer(server);

@@ -6,6 +6,7 @@ const {writeResult} = require("./write-csv");
 const {moveGpxFiles} = require("./moveFiles");
 const {gpxFields, extendedGpxFields, extendedCsvFields} = require("../data/fields");
 const {addDisplayValues} = require("./display");
+const {sendWebsocketMessage} = require("./socket");
 
 function getGpxfilesWithCurrentActivities(resultsCsv, listGpx) {
     const gpxold = [];
@@ -46,6 +47,7 @@ function readFromCsv(resolve) {
     readCsvRaw(config.outputFile).then(resultsCsv => {
         getAllGpx(config.activitiesNewMap).then(listGpx => {
             if (listGpx.length === 0) {
+                sendWebsocketMessage('get activities completed')
                 resolve(resultsCsv);
             } else {
                 console.log(listGpx.length + ' bestanden in newactivities');
