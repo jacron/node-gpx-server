@@ -1,13 +1,11 @@
-const {updateGpx, getGpx, getAllGpx, readAllRealGpx, getNearbyActivities} = require("../lib/gpx");
+const {updateGpx, getGpx, getAllGpx} = require("../lib/gpx");
 const {importFromCsv} = require("../lib/csv_gpx");
 const {getActivitiesFromCsv} = require("../lib/activities");
 const {getMetaFile} = require("../lib/meta");
 const {activitiesMap} = require("../../config");
 const {readCsvRaw} = require("../lib/csv");
 const config = require("../../config");
-const gpxParser = require('gpxparser');
-const {join} = require("node:path");
-const {readFileSync} = require("fs");
+const {getNearbyActivities} = require("../lib/activitiesByLatLng");
 
 const metaFile = (req, res) => {
     const {file} = req.params;
