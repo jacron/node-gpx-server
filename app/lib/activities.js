@@ -57,6 +57,7 @@ function readFromCsv(resolve) {
                 addDisplayValues(resultsCsv);
                 writeResult(resultsCsv, config.outputFile, extendedCsvFields);
                 moveGpxFiles(listGpx);
+                sendWebsocketMessage('get new activities completed')
                 resolve(resultsCsv);
             }
         });
