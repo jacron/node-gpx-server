@@ -19,3 +19,9 @@ Op Garmin Connect zijn de namen van ongeregistreerde activiteiten rood. Om een a
 - Exporteer alle ongeregistreerde activiteiten die je wilt
 - Importeer de gexporteerde activiteiten door de client op te starten of te verversen: N16GpxClient
 
+## build server with the angular client
+
+- in angular.json, zet het pad op /Users/ares/Dev/node/node-gpx-server/app/dist/ng16-gpx-client
+- ng build
+- pas app.js aan met een statisch pad naar dist
+- 
