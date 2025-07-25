@@ -24,7 +24,7 @@
     <key>jc_Port</key>
     <string>3016</string>
     <key>jc_Description</key>
-    <string>Nodejs server for parsing specific gpx-files from Garmin Connect. The server runs the angular client (ng16-gpx-client).</string>
+    <string>Nodejs server for parsing specific gpx-files from Garmin Connect. Angular client: http://gpx-viewer/</string>
     <key>jc_RepoName</key>
     <string>jacron/node-gpx-server.git</string>
   </dict>
