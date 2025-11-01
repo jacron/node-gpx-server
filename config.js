@@ -1,5 +1,5 @@
 const os = require('os');
-const homedir = '/Volumes/Data-1/Data/garminconnect';
+const homedir = '/Volumes/NAS_Data/Data/garminconnect';
 const realHomedir = os.homedir();
 
 module.exports = {
