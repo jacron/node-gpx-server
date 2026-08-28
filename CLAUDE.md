@@ -9,10 +9,10 @@ the built `ng16-gpx-client` (Angular) statically and exposes a REST + WebSocket 
 `ng16-gpx-client` and the older `ng9-gpx-client` ("viewer2") consume. Node 12/13/17. See
 `../CLAUDE.md` for how the four sibling projects in this repo relate.
 
-The `../gpxviewer` Chrome extension is the entry point into this server's import workflow: it adds
-a one-click link from a Garmin Connect activity page to the local viewer, for previewing an
-activity you're about to (or just did) export. It does not itself write files — see "Supplying new
-activities" below for the actual file-drop step.
+The `../gpxviewer` Chrome extension is unrelated to importing: it's just a one-click link from a
+Garmin Connect activity page to `ng9-gpx-client` ("viewer2") for *previewing* an already-imported
+track. It downloads nothing and doesn't target `ng16-gpx-client`. Supplying new activities is a
+manual, per-activity download step — see below.
 
 ## Commands
 
@@ -38,12 +38,15 @@ No test runner or lint script is configured.
   logs a warning if the NAS-backed `activitiesMap` root is unreachable (so a misconfigured/
   unmounted share fails loud instead of just returning an empty list).
 
-**Supplying new activities**: files land in `activitiesNewMap` manually, not automatically. Per
-`README.md`: on Garmin Connect, unregistered activities show in red; open the activity's detail
-page (the `../gpxviewer` extension's page action is the quick way there), export to GPX and to CSV,
-and choose `~/Downloads/newactivities` as the download folder. The import/enrich pipeline below
-then picks those files up the next time `GET /gpx/list/all` runs (i.e. next time a client loads or
-refreshes its activity list).
+**Supplying new activities**: files land in `activitiesNewMap` manually, not automatically — see
+`README.md` for the exact steps. In short: on Garmin Connect, unregistered activities show in red;
+per activity you need *two* same-named files in `~/Downloads/newactivities`
+(`activity_<id>.gpx` + `activity_<id>.csv`) — `app/lib/moveFiles.js` only moves a GPX once its
+matching CSV also exists. The GPX comes from the activity page's gear/toggle menu ("Export to
+GPX"); the CSV comes from a *different* export button on that same page's Laps/Splits table, and
+must be renamed by hand to match the GPX's id (Garmin's own filename won't match). The import/
+enrich pipeline below then picks both up the next time `GET /gpx/list/all` runs (i.e. next time a
+client loads or refreshes its activity list).
 
 **Import/enrich pipeline** (`app/lib/activities.js`, triggered by `GET /gpx/list/all`):
 1. Read the existing `outputFile` CSV (`readCsvRaw`, `app/lib/csv.js`).
