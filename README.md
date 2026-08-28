@@ -1,7 +1,18 @@
 # node-gpx-server
-client: localhost://viewer2 of wel ng9-gpx-client
+client: localhost://viewer2 of wel ng9-gpx-client (en ng16-gpx-client)
 
 node 12.12.0 of 13 of 17
+
+## Starten
+
+`npm start` (draait `node app/bin/www`, poort 3016). Zonder deze server draaiend blijft de
+activiteitenlijst in de Angular-clients (ng9/ng16) leeg — de client haalt alles op via
+`http://localhost:3016/gpx/...`.
+
+`activitiesNewMap` (`~/Downloads/newactivities`) wordt bij het starten automatisch aangemaakt als
+hij nog niet bestaat. `activitiesMap`/de csv-bestanden in `config.js` wijzen naar een NAS-share
+(`/Volumes/NAS_Data/Data/garminconnect`); als die niet gemount is logt de server een waarschuwing
+en blijft de lijst leeg (geen crash).
 
 preferences intellij Node.js:
 Node interpreter: 
