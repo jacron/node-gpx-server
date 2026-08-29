@@ -23,27 +23,44 @@ door dit te laden in IntelliJ (met de geweldige plugin CSV editor geinstalleerd)
 
 ## Nieuwe activiteiten downloaden vanaf Garmin Connect
 
-Op Garmin Connect zijn de namen van ongeregistreerde activiteiten rood. Om zo'n activiteit te
-registreren, moeten er **twee** bestanden met exact dezelfde bestandsnaam
-(`activity_<id>.gpx` en `activity_<id>.csv`) in `~/Downloads/newactivities` terechtkomen —
-`app/lib/moveFiles.js` verplaatst ze pas naar `activitiesMap` als beide bestaan.
+Automatisch (aanbevolen): `../garmin-grab/sync/` (Playwright-script, zie dat project se README)
+logt eenmalig interactief in en exporteert daarna onbemand per nog niet geregistreerde activity
+zowel de GPX (`activity_<id>.gpx`) als een zelf-geschreven `activity_<id>.csv` naar
+`~/Downloads/newactivities`. Dat laatste is geen download van Garmin's eigen CSV-exportknop — die
+gebruikt Chrome's File System Access API, wat altijd een native "Save As"-dialoog opent en dus niet
+automatiseerbaar is — maar wordt door `sync/statsCsv.js` zelf opgebouwd uit de vijf
+statistiek-velden (Afstand/Tijd/Gemiddelde snelheid/Max. snelheid/Totale stijging) die toch al op
+de activiteitenlijst staan, in exact het CSV-formaat dat hieronder beschreven staat.
 
-- Ga naar de detailspagina, bijv. https://connect.garmin.com/app/activity/24000100064
-- Open het gear/toggle-menu rechtsboven op de activiteit → **Export to GPX**. Dit levert
-  `activity_<id>.gpx` op met de juiste bestandsnaam.
-- Scroll naar de Laps/Rondes-tabel op diezelfde pagina en gebruik het CSV-exportknopje daar (dit is
-  een ander exportpad dan het gear-menu, en levert de tussentijden/snelheidsgegevens die
-  `app/lib/meta.js`'s `addFromCsv` gebruikt). Het gedownloade bestand heeft niet automatisch de
-  juiste naam — **hernoem het handmatig naar `activity_<id>.csv`** (zelfde id als de GPX).
-- Kies/verplaats beide naar `~/Downloads/newactivities`.
-- Herhaal per ongeregistreerde activiteit.
-- Importeer door de client (ng16-gpx-client) op te starten of de activiteitenlijst te verversen —
-  dat triggert `GET /gpx/list/all`, wat de import/enrich-pipeline in `app/lib/activities.js` draait.
+Handmatig kan ook: ga naar de detailspagina, bijv. https://connect.garmin.com/app/activity/24000100064,
+open het tandwiel/toggle-menu, en klik **Exporteer naar GPX**. Dit levert `activity_<id>.gpx` op
+met de juiste bestandsnaam; verplaats naar `~/Downloads/newactivities`.
+
+Een CSV is **niet vereist**: `app/lib/moveFiles.js` verplaatst de GPX ook zonder bijbehorende CSV,
+en `app/lib/meta.js` leidt distance/duration dan uit de GPX zelf af in plaats van uit Garmin's
+CSV-totalenrij. Zonder CSV blijven `speed`, `maxSpeed` en `elevation` echter volledig leeg (die
+worden nergens uit ruwe GPX-data berekend) — vandaar dat `sync/` er zelf een genereert. Wie het
+liever handmatig doet: CSV-exportknopje op de Laps/Rondes-tabel van de activity-pagina, hernoemen
+naar `activity_<id>.csv` in dezelfde map.
+
+Activities die al zonder deze velden geïmporteerd zijn (bv. vóór de scraping-aanpak er was) kunnen
+achteraf gepatcht worden met `../garmin-grab/sync/backfillStats.js <activityId...> --write` — dat
+patcht rechtstreeks in `ActivitiesOut.csv` (met een timestamped backup) i.p.v. via de normale
+import-pipeline, omdat de GPX/JSON al lang verplaatst zijn.
+
+**Importeren is een bewuste, losse stap** — het laden/verversen van de activiteitenlijst
+(`GET /gpx/list/all`, ook bij het opstarten van ng16-gpx-client) doet dit *niet* meer automatisch.
+Draai na het klaarzetten van bestanden in `newactivities`:
+
+```
+npm run import-new
+```
+
+(POST naar `/gpx/import`, draait de import/enrich-pipeline in `app/lib/activities.js` en verplaatst
+de bestanden naar `activitiesMap` — zie `CLAUDE.md` voor de architectuur.)
 
 De `../gpxviewer` Chrome-extensie hoort hier niet bij: die download niets, en linkt bovendien naar
-`ng9-gpx-client` ("viewer2"), niet naar de huidige `ng16-gpx-client`. Er was ooit een los stukje
-automatisering hiervoor (in eerdere versies van dit document "garmin grab" genoemd), maar de bron
-daarvan is niet (meer) onderdeel van deze repo.
+`ng9-gpx-client` ("viewer2"), niet naar de huidige `ng16-gpx-client`.
 
 ### Bulk CSV-export (`connect.garmin.com/app/activities`) — geen vervanging hiervoor
 

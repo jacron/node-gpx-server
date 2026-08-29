@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node app/bin/www",
+    "import-new": "curl -sS -X POST http://localhost:3016/gpx/import",
     "pcopy": "cp plist/ares/nl.jcroonen.gpxserver.plist ~/Library/LaunchAgents",
     "pstart": "launchctl start nl.jcroonen.gpxserver",
     "pstop": "launchctl stop nl.jcroonen.gpxserver",

@@ -11,8 +11,13 @@ the built `ng16-gpx-client` (Angular) statically and exposes a REST + WebSocket 
 
 The `../gpxviewer` Chrome extension is unrelated to importing: it's just a one-click link from a
 Garmin Connect activity page to `ng9-gpx-client` ("viewer2") for *previewing* an already-imported
-track. It downloads nothing and doesn't target `ng16-gpx-client`. Supplying new activities is a
-manual, per-activity download step — see below.
+track. It downloads nothing and doesn't target `ng16-gpx-client`.
+
+Supplying new activities is now automatable: `../garmin-grab/sync/` (Playwright) logs into Garmin
+Connect once (session persists) and exports the GPX of every not-yet-registered activity into
+`activitiesNewMap` unattended — see below and that project's README. Importing those files into
+`activitiesMap` remains a separate, deliberate step (`POST /gpx/import` / `npm run import-new`),
+not something list-loading triggers automatically (see "Import/enrich pipeline" below).
 
 ## Commands
 
@@ -38,17 +43,30 @@ No test runner or lint script is configured.
   logs a warning if the NAS-backed `activitiesMap` root is unreachable (so a misconfigured/
   unmounted share fails loud instead of just returning an empty list).
 
-**Supplying new activities**: files land in `activitiesNewMap` manually, not automatically — see
-`README.md` for the exact steps. In short: on Garmin Connect, unregistered activities show in red;
-per activity you need *two* same-named files in `~/Downloads/newactivities`
-(`activity_<id>.gpx` + `activity_<id>.csv`) — `app/lib/moveFiles.js` only moves a GPX once its
-matching CSV also exists. The GPX comes from the activity page's gear/toggle menu ("Export to
-GPX"); the CSV comes from a *different* export button on that same page's Laps/Splits table, and
-must be renamed by hand to match the GPX's id (Garmin's own filename won't match). The import/
-enrich pipeline below then picks both up the next time `GET /gpx/list/all` runs (i.e. next time a
-client loads or refreshes its activity list).
+**Supplying new activities**: files land in `activitiesNewMap` via `../garmin-grab/sync/`
+(Playwright, unattended) or manually — see `README.md` for both paths. A CSV per activity
+(`activity_<id>.csv`, matching the GPX's id) is optional, not required: `moveFiles.js` moves the
+GPX regardless of whether a matching CSV exists, and `meta.js` derives distance/duration from the
+GPX itself when there's no CSV — but `speed`, `maxSpeed` and `elevation` are never computed from
+raw GPX data anywhere in this codebase, so without a CSV those three stay empty. Garmin's own CSV
+export ("Exporteer tussentijden naar CSV") lives in the *same* gear/toggle menu as the GPX export
+(confirmed live 2026-08-29; an older assumption that it was a separate Laps/Splits-table button
+was wrong) but can't be automated regardless: it uses Chrome's File System Access API
+(`showSaveFilePicker`), which always opens a native OS "Save As" dialog no browser automation can
+drive. `../garmin-grab/sync/` works around this by scraping the same five stats
+(Afstand/Tijd/Gemiddelde snelheid/Max. snelheid/Totale stijging) straight off the activity list
+page — those Dutch labels are literally `app/data/fields.js`'s expected CSV column names — and
+writing its own `activity_<id>.csv` in that format (`sync/statsCsv.js`), including normalizing
+Garmin's MM:SS-under-an-hour display into the H:MM:SS this pipeline's `display.js` assumes.
+`sync/backfillStats.js` does the same for activities already imported without these fields, but
+patches `outputFile` directly (with a backup) since their GPX/JSON have already moved past the
+normal import pipeline.
 
-**Import/enrich pipeline** (`app/lib/activities.js`, triggered by `GET /gpx/list/all`):
+**Import/enrich pipeline** (`app/lib/activities.js`): reading the activity list
+(`getActivitiesFromCsv`, behind `GET /gpx/list/all`) is now a pure read of the existing `outputFile`
+CSV — it does **not** touch `activitiesNewMap`, so loading/refreshing a client (including ng16 on
+startup) has no side effects. Importing is a separate, explicit call
+(`importNewActivities`, behind `POST /gpx/import` / `npm run import-new`):
 1. Read the existing `outputFile` CSV (`readCsvRaw`, `app/lib/csv.js`).
 2. Scan `activitiesNewMap` for new GPX files (`getAllGpx`, `app/lib/gpx.js`).
 3. Match new/existing GPX files to CSV rows by date (`getGpxfilesWithCurrentActivities`,
@@ -71,7 +89,9 @@ index (`tree.json` in `activitiesMap`) over each GPX's start point, used by
 `GET /gpx/list/:lon/:lat` (map-click "what tracks pass near here" in the clients).
 
 **Routes** (`app/routes/gpx.js`, mounted at `/gpx` in `app/routes/index.js`):
-- `GET /list/all` — CSV-driven full activity list (triggers the import pipeline above).
+- `GET /list/all` — CSV-driven full activity list; pure read, no side effects.
+- `POST /import` — runs the import/enrich pipeline above (moves files from `activitiesNewMap`
+  into `activitiesMap`). The only trigger for that pipeline — nothing else calls it automatically.
 - `GET /list` — raw scan of `activitiesMap` for all `.gpx` files (no CSV).
 - `GET /list/:lon/:lat` — nearby activities via the spatial index.
 - `GET /meta/:file` — metadata for one GPX file.

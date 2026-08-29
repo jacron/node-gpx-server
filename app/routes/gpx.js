@@ -1,6 +1,6 @@
 const {
     listRoutes, listActiviteitenFromCsv, lonlatList,
-    metaFile, file, importXls, update, exists
+    metaFile, file, importXls, update, exists, importNew
 } = require("./controller");
 /**
  * api calls for gpx
@@ -19,6 +19,9 @@ router.get('/:file', file);
 
 router.post('/importxls', importXls);
 router.post('/update', update);
+/** verplaatst/importeert bestanden uit activitiesNewMap; wordt NIET automatisch
+ *  aangeroepen door het laden van de activiteitenlijst (zie /list/all) */
+router.post('/import', importNew);
 
 
 module.exports = router;

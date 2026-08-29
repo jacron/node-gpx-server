@@ -1,6 +1,6 @@
 const {updateGpx, getGpx, getAllGpx} = require("../lib/gpx");
 const {importFromCsv} = require("../lib/csv_gpx");
-const {getActivitiesFromCsv} = require("../lib/activities");
+const {getActivitiesFromCsv, importNewActivities} = require("../lib/activities");
 const {getMetaFile} = require("../lib/meta");
 const {activitiesMap} = require("../../config");
 const {readCsvRaw} = require("../lib/csv");
@@ -72,7 +72,13 @@ const exists = (req, res) => {
     });
 }
 
+const importNew = (req, res) => {
+    importNewActivities()
+        .then((data) => res.send(data))
+        .catch(err => res.send(JSON.stringify(err)))
+};
+
 module.exports = {
     metaFile, lonlatList,
     listActiviteitenFromCsv, listRoutes,
-    importXls, update, file, exists};
+    importXls, update, file, exists, importNew};

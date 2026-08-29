@@ -43,31 +43,33 @@ function enrichResultsFromGpx(resultsCsv, listGpxOld) {
     }
 }
 
-function readFromCsv(resolve) {
-    readCsvRaw(config.outputFile).then(resultsCsv => {
-        getAllGpx(config.activitiesNewMap).then(listGpx => {
+function getActivitiesFromCsv() {
+    // puur lezend: raakt activitiesNewMap niet aan, dus het laden/verversen van de
+    // activiteitenlijst (ook door een client op te starten) heeft geen bijwerkingen meer.
+    return readCsvRaw(config.outputFile).then(resultsCsv => {
+        sendWebsocketMessage('get activities completed')
+        return resultsCsv;
+    });
+}
+
+function importNewActivities() {
+    return readCsvRaw(config.outputFile).then(resultsCsv => {
+        return getAllGpx(config.activitiesNewMap).then(listGpx => {
             if (listGpx.length === 0) {
                 sendWebsocketMessage('get activities completed')
-                resolve(resultsCsv);
-            } else {
-                console.log(listGpx.length + ' bestanden in newactivities');
-                const [gpxold, gpxnew] = getGpxfilesWithCurrentActivities(resultsCsv, listGpx);
-                enrichResultsFromGpx(resultsCsv, gpxold);
-                insertResultsFromGpx(resultsCsv, gpxnew);
-                addDisplayValues(resultsCsv);
-                writeResult(resultsCsv, config.outputFile, extendedCsvFields);
-                moveGpxFiles(listGpx);
-                sendWebsocketMessage('get new activities completed')
-                resolve(resultsCsv);
+                return resultsCsv;
             }
+            console.log(listGpx.length + ' bestanden in newactivities');
+            const [gpxold, gpxnew] = getGpxfilesWithCurrentActivities(resultsCsv, listGpx);
+            enrichResultsFromGpx(resultsCsv, gpxold);
+            insertResultsFromGpx(resultsCsv, gpxnew);
+            addDisplayValues(resultsCsv);
+            writeResult(resultsCsv, config.outputFile, extendedCsvFields);
+            moveGpxFiles(listGpx);
+            sendWebsocketMessage('get new activities completed')
+            return resultsCsv;
         });
     });
 }
 
-function getActivitiesFromCsv() {
-    return new Promise((resolve) => {
-        readFromCsv(resolve);
-    });
-}
-
-module.exports = {getActivitiesFromCsv};
+module.exports = {getActivitiesFromCsv, importNewActivities};
