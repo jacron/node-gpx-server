@@ -45,6 +45,17 @@ De `../gpxviewer` Chrome-extensie hoort hier niet bij: die download niets, en li
 automatisering hiervoor (in eerdere versies van dit document "garmin grab" genoemd), maar de bron
 daarvan is niet (meer) onderdeel van deze repo.
 
+### Bulk CSV-export (`connect.garmin.com/app/activities`) — geen vervanging hiervoor
+
+Op de activiteitenlijst kun je met "Export CSV" alle metadata (behalve GPX-trackdata) in één keer
+naar `Activities.csv` exporteren — maar alleen van de activiteiten die door infinite scroll al
+geladen zijn. De server heeft hier al een import voor: `POST /gpx/importxls`
+(`app/lib/csv_gpx.js`), aangeroepen via de knop "update list from csv" op het "Tools"-tabblad van
+`ng9-gpx-client` (niet aanwezig in ng16). Let op: dit **registreert geen nieuwe activiteiten** —
+het ververst alleen de metadata van activiteiten die al een GPX in `activitiesMap` hebben. Voor
+nieuwe activiteiten blijft de stappen hierboven nodig. Deze route heeft bovendien een bekende bug
+(zie `CLAUDE.md`) waardoor de refresh momenteel stil faalt.
+
 ## build server with the angular client
 
 - in angular.json, zet het pad op /Users/ares/Dev/node/node-gpx-server/app/dist/ng16-gpx-client

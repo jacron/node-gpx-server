@@ -77,7 +77,17 @@ index (`tree.json` in `activitiesMap`) over each GPX's start point, used by
 - `GET /meta/:file` — metadata for one GPX file.
 - `GET /exists/:id` — whether an activity id is already in `outputFile`.
 - `GET /:file` — raw GPX file bytes (must stay **last** in the route list; catch-all on filename).
-- `POST /importxls` — import from Excel/CSV.
+- `POST /importxls` — **not** part of the new-activity flow above; it's a metadata *refresh* for
+  activities already in `activitiesMap`. `app/lib/csv_gpx.js`'s `importFromCsv` re-reads the bulk
+  `activitiesCsvFile` (`Activities.csv` — the CSV export you can do from
+  `connect.garmin.com/app/activities`, which only covers whatever the infinite-scroll list has
+  loaded, metadata only, no track data) and matches its rows by date against existing GPX files to
+  update their `.json` sidecars — it does not register brand-new activities. Only wired up in
+  `ng9-gpx-client`'s "Tools" tab (button "update list from csv"); `ng16-gpx-client` has no UI for
+  it. **Known bug**: `csv_gpx.js:8` calls `getAllGpx()` without the required `activitiesMap`
+  argument, so that promise rejects immediately and the enrich step silently never runs (the route
+  still responds `'ok'` regardless, since it doesn't wait for that chain) — on Node ≥15 the
+  unhandled rejection can crash the server process outright. Not fixed as of this writing.
 - `POST /update` — patch a field in an activity's `.json` sidecar.
 
 **Static serving**: `app.js` serves `dist/ng16-gpx-client` at `/` (built Angular output — see that
