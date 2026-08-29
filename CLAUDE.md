@@ -13,7 +13,7 @@ The `../gpxviewer` Chrome extension is unrelated to importing: it's just a one-c
 Garmin Connect activity page to `ng9-gpx-client` ("viewer2") for *previewing* an already-imported
 track. It downloads nothing and doesn't target `ng16-gpx-client`.
 
-Supplying new activities is now automatable: `../garmin-grab/sync/` (Playwright) logs into Garmin
+Supplying new activities is now automatable: `../garmin-sync/` (Playwright) logs into Garmin
 Connect once (session persists) and exports the GPX of every not-yet-registered activity into
 `activitiesNewMap` unattended — see below and that project's README. Importing those files into
 `activitiesMap` remains a separate, deliberate step (`POST /gpx/import` / `npm run import-new`),
@@ -43,7 +43,7 @@ No test runner or lint script is configured.
   logs a warning if the NAS-backed `activitiesMap` root is unreachable (so a misconfigured/
   unmounted share fails loud instead of just returning an empty list).
 
-**Supplying new activities**: files land in `activitiesNewMap` via `../garmin-grab/sync/`
+**Supplying new activities**: files land in `activitiesNewMap` via `../garmin-sync/`
 (Playwright, unattended) or manually — see `README.md` for both paths. A CSV per activity
 (`activity_<id>.csv`, matching the GPX's id) is optional, not required: `moveFiles.js` moves the
 GPX regardless of whether a matching CSV exists, and `meta.js` derives distance/duration from the
@@ -53,12 +53,12 @@ export ("Exporteer tussentijden naar CSV") lives in the *same* gear/toggle menu 
 (confirmed live 2026-08-29; an older assumption that it was a separate Laps/Splits-table button
 was wrong) but can't be automated regardless: it uses Chrome's File System Access API
 (`showSaveFilePicker`), which always opens a native OS "Save As" dialog no browser automation can
-drive. `../garmin-grab/sync/` works around this by scraping the same five stats
+drive. `../garmin-sync/` works around this by scraping the same five stats
 (Afstand/Tijd/Gemiddelde snelheid/Max. snelheid/Totale stijging) straight off the activity list
 page — those Dutch labels are literally `app/data/fields.js`'s expected CSV column names — and
-writing its own `activity_<id>.csv` in that format (`sync/statsCsv.js`), including normalizing
+writing its own `activity_<id>.csv` in that format (`garmin-sync/statsCsv.js`), including normalizing
 Garmin's MM:SS-under-an-hour display into the H:MM:SS this pipeline's `display.js` assumes.
-`sync/backfillStats.js` does the same for activities already imported without these fields, but
+`garmin-sync/backfillStats.js` does the same for activities already imported without these fields, but
 patches `outputFile` directly (with a backup) since their GPX/JSON have already moved past the
 normal import pipeline.
 

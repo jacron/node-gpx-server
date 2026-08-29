@@ -23,12 +23,12 @@ door dit te laden in IntelliJ (met de geweldige plugin CSV editor geinstalleerd)
 
 ## Nieuwe activiteiten downloaden vanaf Garmin Connect
 
-Automatisch (aanbevolen): `../garmin-grab/sync/` (Playwright-script, zie dat project se README)
+Automatisch (aanbevolen): `../garmin-sync/` (Playwright-script, zie dat project se README)
 logt eenmalig interactief in en exporteert daarna onbemand per nog niet geregistreerde activity
 zowel de GPX (`activity_<id>.gpx`) als een zelf-geschreven `activity_<id>.csv` naar
 `~/Downloads/newactivities`. Dat laatste is geen download van Garmin's eigen CSV-exportknop — die
 gebruikt Chrome's File System Access API, wat altijd een native "Save As"-dialoog opent en dus niet
-automatiseerbaar is — maar wordt door `sync/statsCsv.js` zelf opgebouwd uit de vijf
+automatiseerbaar is — maar wordt door `garmin-sync/statsCsv.js` zelf opgebouwd uit de vijf
 statistiek-velden (Afstand/Tijd/Gemiddelde snelheid/Max. snelheid/Totale stijging) die toch al op
 de activiteitenlijst staan, in exact het CSV-formaat dat hieronder beschreven staat.
 
@@ -39,12 +39,12 @@ met de juiste bestandsnaam; verplaats naar `~/Downloads/newactivities`.
 Een CSV is **niet vereist**: `app/lib/moveFiles.js` verplaatst de GPX ook zonder bijbehorende CSV,
 en `app/lib/meta.js` leidt distance/duration dan uit de GPX zelf af in plaats van uit Garmin's
 CSV-totalenrij. Zonder CSV blijven `speed`, `maxSpeed` en `elevation` echter volledig leeg (die
-worden nergens uit ruwe GPX-data berekend) — vandaar dat `sync/` er zelf een genereert. Wie het
+worden nergens uit ruwe GPX-data berekend) — vandaar dat `../garmin-sync/` er zelf een genereert. Wie het
 liever handmatig doet: CSV-exportknopje op de Laps/Rondes-tabel van de activity-pagina, hernoemen
 naar `activity_<id>.csv` in dezelfde map.
 
 Activities die al zonder deze velden geïmporteerd zijn (bv. vóór de scraping-aanpak er was) kunnen
-achteraf gepatcht worden met `../garmin-grab/sync/backfillStats.js <activityId...> --write` — dat
+achteraf gepatcht worden met `../garmin-sync/backfillStats.js <activityId...> --write` — dat
 patcht rechtstreeks in `ActivitiesOut.csv` (met een timestamped backup) i.p.v. via de normale
 import-pipeline, omdat de GPX/JSON al lang verplaatst zijn.
 
