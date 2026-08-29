@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Node/Express backend for viewing and managing GPX activity tracks (from Garmin Connect). It serves
 the built `ng16-gpx-client` (Angular) statically and exposes a REST + WebSocket API that both
 `ng16-gpx-client` and the older `ng9-gpx-client` ("viewer2") consume. Node 12/13/17. See
-`../CLAUDE.md` for how the four sibling projects in this repo relate.
+`../CLAUDE.md` for how the sibling projects in this repo relate.
 
 The `../gpxviewer` Chrome extension is unrelated to importing: it's just a one-click link from a
 Garmin Connect activity page to `ng9-gpx-client` ("viewer2") for *previewing* an already-imported
