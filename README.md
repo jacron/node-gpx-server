@@ -75,7 +75,11 @@ nieuwe activiteiten blijft de stappen hierboven nodig. Deze route heeft bovendie
 
 ## build server with the angular client
 
-- in angular.json, zet het pad op /Users/ares/Dev/node/node-gpx-server/app/dist/ng16-gpx-client
-- ng build
-- pas app.js aan met een statisch pad naar dist
-- 
+`app.js` serveert statisch vanaf `dist/ng16-gpx-client` (relatief aan deze repo-root, dus
+`node-gpx-server/dist/ng16-gpx-client` — niet `app/dist/...`, dat is een stale pad uit een oudere
+versie van deze README). `ng16-gpx-client/angular.json`'s `outputPath` staat hier al op gericht, en
+wel relatief (`../node-gpx-server/dist/ng16-gpx-client`) zodat het op elke machine werkt zolang
+`ng16-gpx-client` en `node-gpx-server` sibling-mappen blijven; dus gewoon:
+
+- `ng build` in `ng16-gpx-client`
+- geen aanpassing aan `app.js` nodig, die wijst al naar de juiste map

@@ -2,3 +2,6 @@
 /garmin/*
 /dist/ng16-gpx-client
 /node_modules
+.DS_Store
+app/access.log
+app/error.log
