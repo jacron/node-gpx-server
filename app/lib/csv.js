@@ -61,30 +61,30 @@ function fromCsvLine(line) {
     return data;
 }
 
-function readCsv(p) {
-    return new Promise((resolve) => {
+// Leest een CSV naar een lijst objecten. Rejecteert als het bestand niet te lezen is (bv. NAS
+// niet gemount): zonder 'error'-listener op de stream zou zo'n fout het serverproces laten
+// crashen in plaats van één request te laten falen.
+function readCsvRows(p, mapRow) {
+    return new Promise((resolve, reject) => {
         const resultsCsv = [];
         fs.createReadStream(p)
+            .on('error', reject)
             .pipe(csvParser())
+            .on('error', reject)
             .on('data', data =>
-                resultsCsv.push(fromCsvLine(data)))
+                resultsCsv.push(mapRow(data)))
             .on('end', () => {
                 resolve(resultsCsv);
             })
     });
 }
 
+function readCsv(p) {
+    return readCsvRows(p, fromCsvLine);
+}
+
 function readCsvRaw(p) {
-    return new Promise((resolve) => {
-        const resultsCsv = [];
-        fs.createReadStream(p)
-            .pipe(csvParser())
-            .on('data', data =>
-                resultsCsv.push(data))
-            .on('end', () => {
-                resolve(resultsCsv);
-            })
-    });
+    return readCsvRows(p, row => row);
 }
 
 module.exports = {updateFromCsv, readCsv, readCsvRaw};

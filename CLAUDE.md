@@ -95,7 +95,12 @@ index (`tree.json` in `activitiesMap`) over each GPX's start point, used by
 - `GET /list` — raw scan of `activitiesMap` for all `.gpx` files (no CSV).
 - `GET /list/:lon/:lat` — nearby activities via the spatial index.
 - `GET /meta/:file` — metadata for one GPX file.
-- `GET /exists/:id` — whether an activity id is already in `outputFile`.
+- `GET /exists/:id` — whether an activity id is already in `outputFile` (one or more rows).
+- `GET /ids` — all registered activity ids in one response; used by garmin-grab's plus button and
+  garmin-sync to compare the whole Garmin history with one CSV read.
+- `activityId` is derived from the file name only for `activity_<id>.gpx`; other rows (old format
+  without GPX, or other file names) keep the id filled in by garmin-sync's `repairCsv.js`
+  (`app/lib/display.js`).
 - `GET /:file` — raw GPX file bytes (must stay **last** in the route list; catch-all on filename).
 - `POST /importxls` — **not** part of the new-activity flow above; it's a metadata *refresh* for
   activities already in `activitiesMap`. `app/lib/csv_gpx.js`'s `importFromCsv` re-reads the bulk

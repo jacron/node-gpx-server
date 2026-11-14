@@ -19,7 +19,8 @@ const listActiviteitenFromCsv = (req, res) => {
         .then((data) => {
             res.send(data)
         })
-        .catch(err => res.send(JSON.stringify(err)))
+        // 500, zodat de client het als fout ziet (en opnieuw probeert) i.p.v. een lege lijst
+        .catch(err => res.status(500).send(String(err)))
 };
 
 const lonlatList = (req, res) => {
@@ -65,20 +66,35 @@ const file = (req, res) => {
 
 const exists = (req, res) => {
     const {id} = req.params;
-    readCsvRaw(config.outputFile).then(resultsCsv => {
-        const filtered = resultsCsv.filter(a => a.activityId === id);
-        const exists = filtered.length === 1;
-        res.send(JSON.stringify(exists));
-    });
+    readCsvRaw(config.outputFile)
+        .then(resultsCsv => {
+            // minstens één rij: een dubbele rij (overblijfsel van een oude importbug) betekent
+            // nog steeds dat de activity geregistreerd is
+            const exists = resultsCsv.some(a => a.activityId === id);
+            res.send(JSON.stringify(exists));
+        })
+        .catch(err => res.status(500).send(String(err)));
+}
+
+// Alle geregistreerde activityIds in één antwoord, zodat garmin-grab en garmin-sync de hele
+// Garmin-historie kunnen vergelijken met één keer de CSV lezen i.p.v. één /exists per activity.
+const ids = (req, res) => {
+    readCsvRaw(config.outputFile)
+        .then(resultsCsv => {
+            const unique = [...new Set(resultsCsv.map(a => a.activityId).filter(Boolean))];
+            res.json(unique);
+        })
+        .catch(err => res.status(500).send(String(err)));
 }
 
 const importNew = (req, res) => {
     importNewActivities()
         .then((data) => res.send(data))
-        .catch(err => res.send(JSON.stringify(err)))
+        // 500, zodat de client een mislukte import niet als "0 geïmporteerd" leest
+        .catch(err => res.status(500).send(String(err)))
 };
 
 module.exports = {
     metaFile, lonlatList,
     listActiviteitenFromCsv, listRoutes,
-    importXls, update, file, exists, importNew};
+    importXls, update, file, exists, ids, importNew};

@@ -1,6 +1,6 @@
 const {
     listRoutes, listActiviteitenFromCsv, lonlatList,
-    metaFile, file, importXls, update, exists, importNew
+    metaFile, file, importXls, update, exists, ids, importNew
 } = require("./controller");
 /**
  * api calls for gpx
@@ -13,6 +13,8 @@ router.get('/list/all', listActiviteitenFromCsv);
 router.get('/list', listRoutes);
 router.get('/meta/:file', metaFile);
 router.get('/exists/:id', exists);
+/** alle geregistreerde activityIds (voor garmin-grab's plusknop en garmin-sync) */
+router.get('/ids', ids);
 router.get('/list/:lon/:lat', lonlatList);
 /** GET gpx from file  NB must be the LAST get in this list! */
 router.get('/:file', file);
