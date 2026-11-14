@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>Label</key>
+    <string>nl.jcroonen.gpxserver</string>
+    <key>WorkingDirectory</key>
+    <string>/Users/sol/projects/gpx/node-gpx-server/app</string>
+    <key>jc_IdeDirectory</key>
+    <string>/Users/sol/projects/gpx/node-gpx-server</string>
+    <key>ProgramArguments</key>
+    <array>
+      <string>/Users/sol/.nvm/versions/node/v24.16.0/bin/node</string>
+      <string>bin/www</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+    <key>StandardOutPath</key>
+    <string>/tmp/gpxserver.log</string>
+    <key>StandardErrorPath</key>
+    <string>/tmp/gpxserver.err</string>
+    <key>jc_Port</key>
+    <string>3016</string>
+    <key>jc_Description</key>
+    <string>Nodejs server voor Garmin-activiteiten (GPX/CSV). Client: http://garmin-activities.sol/</string>
+    <key>jc_RepoName</key>
+    <string>jacron/node-gpx-server.git</string>
+  </dict>
+</plist>

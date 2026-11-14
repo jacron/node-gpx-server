@@ -23,8 +23,10 @@ not something list-loading triggers automatically (see "Import/enrich pipeline" 
 
 - `npm start` — runs `node app/bin/www`, listens on port 3016 (`config.js`). Must be running for
   either Angular client to show activities — without it, activity lists stay empty/retry forever.
-- `npm run pcopy` — copies `plist/ares/nl.jcroonen.gpxserver.plist` to `~/Library/LaunchAgents`
-  (macOS launchd service, target label `nl.jcroonen.gpxserver`).
+- `npm run pcopy` — copies `plist/$USER/nl.jcroonen.gpxserver.plist` to `~/Library/LaunchAgents`
+  (macOS launchd service, target label `nl.jcroonen.gpxserver`). Production runs on **sol**
+  (`plist/sol/`, vhost `apache/garmin-activities.sol.conf` → `garmin-activities.sol`); on ios the
+  service is unloaded since 2026-11-14.
 - `npm run pload` / `npm run punload` — load/unload the launchd service.
 - `npm run pstart` / `npm run pstop` — start/stop the launchd service.
 - `npm run plist` — list running launchd jobs matching `jcroonen`.
