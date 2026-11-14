@@ -1,6 +1,5 @@
 const { readCsvRaw} = require("./csv");
 const config = require("../../config");
-const {sameDate} = require("./util");
 const {getAllGpx} = require("./gpx");
 const {writeResult} = require("./write-csv");
 const {moveGpxFiles} = require("./moveFiles");
@@ -8,17 +7,24 @@ const {gpxFields, extendedGpxFields, extendedCsvFields} = require("../data/field
 const {addDisplayValues} = require("./display");
 const {sendWebsocketMessage} = require("./socket");
 
+// Splitst de GPX-bestanden in al bekende (zelfde bestandsnaam activity_<id>.gpx als een rij in
+// de CSV, dus dezelfde Garmin-activity) en nieuwe. Eerder werd op datum vergeleken met sameDate,
+// maar die matchte door verschillende datumnotaties nooit, en `found` werd nooit gezet: een
+// opnieuw geïmporteerde rit kwam er dan als dubbele rij bij.
 function getGpxfilesWithCurrentActivities(resultsCsv, listGpx) {
     const gpxold = [];
     const gpxnew = [];
-    for (const gpx of listGpx) {
-        let found = false;
-        for (const csv of resultsCsv) {
-            if (sameDate(gpx, csv)) {
-                gpxold.push([gpx, csv]);
-            }
+    const csvByFile = new Map();
+    for (const csv of resultsCsv) {
+        if (csv.file) {
+            csvByFile.set(csv.file, csv);
         }
-        if (!found) {
+    }
+    for (const gpx of listGpx) {
+        const csv = gpx.file && csvByFile.get(gpx.file);
+        if (csv) {
+            gpxold.push([gpx, csv]);
+        } else {
             gpxnew.push(gpx);
         }
     }
@@ -52,12 +58,13 @@ function getActivitiesFromCsv() {
     });
 }
 
+// Resolvet met een samenvatting {imported, total} voor de client / npm run import-new.
 function importNewActivities() {
     return readCsvRaw(config.outputFile).then(resultsCsv => {
         return getAllGpx(config.activitiesNewMap).then(listGpx => {
             if (listGpx.length === 0) {
                 sendWebsocketMessage('get activities completed')
-                return resultsCsv;
+                return {imported: 0, total: resultsCsv.length};
             }
             console.log(listGpx.length + ' bestanden in newactivities');
             const [gpxold, gpxnew] = getGpxfilesWithCurrentActivities(resultsCsv, listGpx);
@@ -67,7 +74,7 @@ function importNewActivities() {
             writeResult(resultsCsv, config.outputFile, extendedCsvFields);
             moveGpxFiles(listGpx);
             sendWebsocketMessage('get new activities completed')
-            return resultsCsv;
+            return {imported: gpxnew.length, total: resultsCsv.length};
         });
     });
 }
